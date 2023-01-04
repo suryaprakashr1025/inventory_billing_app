@@ -1,0 +1,17 @@
+.dialog{
+    border: 1px solid black;
+    border-radius: 8px;
+    width:200px;
+    margin:50px;
+}
+.dialog p{
+    padding: 10px 15px;
+}
+.dialog input{
+   margin-left:  110px;
+   margin-bottom: 10px;
+   padding: 5px 20px;
+}
+input[class="form"]:disabled{ 
+    background-color: rgb(192, 196, 201) !important;
+}

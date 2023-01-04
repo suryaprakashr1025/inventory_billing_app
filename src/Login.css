@@ -1,0 +1,37 @@
+
+body{
+   background-color: linear-gradient(#650404,#FFD6D6) !important;
+}
+
+.errors-box{
+    border: 1px solid red !important;
+}
+.success-box{
+    border: 1px solid green !important;
+}
+.opacity-form{
+    opacity:0.5;
+}
+.disabled{
+    
+    cursor: default;
+}
+
+.login{
+
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+.loginform{
+    padding: 40px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.1),
+                -1px -1px 5px rgba(0,0,0,.1);
+    border-radius:30px;
+}
+.loginform:hover{
+    transform: scale(1.1);
+    transition: 1s;
+}
+
