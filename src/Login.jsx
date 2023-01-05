@@ -52,7 +52,8 @@ function Login() {
 
                 }
             } catch (error) {
-                alert(error.response.data.message)
+                //lert(error.response.data.message)
+                alert("something went wrong")
             }
         }
     })

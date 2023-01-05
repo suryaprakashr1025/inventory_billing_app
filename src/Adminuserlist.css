@@ -1,0 +1,36 @@
+
+
+.pageul{
+    padding: 6px;
+    background-color: black;
+    border-radius: 50px;
+
+ }
+ .pageul .pagelink{
+    color:white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none !important;
+    overflow: hidden;
+ }
+ 
+ .pageul .pagelink:link{
+    color:white;
+  }
+  .pageul .pagelink:visited{
+    color:white;
+  }
+  .pageul .pagelink:hover{
+    color:black;
+    background-color: greenyellow;
+    border-radius: 50px;
+  }
+ 
+ .paginationdiv{
+   
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    overflow: hidden;
+    
+ }
