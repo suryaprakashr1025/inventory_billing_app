@@ -1,0 +1,124 @@
+.viewproduct {
+
+    margin-top: 22px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    background-image: linear-gradient(to right, #FF4066, #FFF16A);
+    overflow: hidden;
+}
+
+.viewproduct .viewimgbtn {
+    padding: 20px 0px;
+}
+
+.viewproduct .viewimgbtn img {
+    border: 1px solid black;
+    width: 360px;
+    height: 380px;
+    display: block !important;
+    justify-content: center;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.viewproduct .viewname {
+    display: flex;
+    justify-content: center;
+    padding: 18px 0px;
+    background-image: linear-gradient(to right, #FF4066, #FFF16A);
+    color: white;
+    font-size: 20px;
+}
+
+.viewproduct .viewname h4 {
+    font-weight: bold;
+    font-size: 32px;
+    color: white;
+}
+
+.viewproduct .viewheadpara {
+    width: 90%;
+    margin: auto;
+    border: 1px solid black;
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 10px 50px;
+}
+
+.pqd .viewheadpara p {
+    width: fit-content;
+    height: 98px;
+    overflow: hidden;
+    overflow-y: scroll;
+    text-align: justify;
+}
+
+.pqd .viewheadpara p::-webkit-scrollbar {
+    display: none;
+}
+
+.pqd .viewheadpara p {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.pqd .viewheadpara p:hover{
+    cursor: grab;
+}
+.pqd .viewheadpara h3 {
+    color: rgb(230, 114, 37);
+    font-weight: bold;
+    text-align: center;
+}
+
+.pqd .pricequantity {
+    border: 1px solid black;
+    width: fit-content;
+    padding: 10px 100px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+.pqd .pricequantity h4{
+    color:rgb(230, 114, 37);
+    font-weight: bold;
+}
+.pqd .pricequantity h6{
+   
+    font-weight: bold;
+}
+.pqd .pricequantity .selectqty{
+    width:70%;
+    text-align: center;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px !important;
+    /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); */
+}
+
+.reviewbtn {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+}
+
+.viewproduct .viewbutton{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+.viewproduct .viewbutton .inputbtn{
+    padding: 7px 0px;
+    background-color: transparent;
+    border: 1px solid white;
+    font-weight: bold;
+    font-size: 20px;
+    width: 50%;
+}   
+
+.viewproduct .viewbutton .inputbtn:hover{
+    /* border:2px solid black;
+    color:black; */
+    border: none;
+    background-image:linear-gradient(to right, #6b82ec9f, #8c42ee);
+}

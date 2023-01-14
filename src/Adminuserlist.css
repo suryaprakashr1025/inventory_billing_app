@@ -1,36 +1,96 @@
+.pageul {
+   padding: 6px;
+   background-color: black;
+   border-radius: 50px;
+
+}
+
+.pageul .pagelink {
+   color: white;
+   font-weight: bold;
+   cursor: pointer;
+   border: none !important;
+   overflow: hidden;
+}
+
+.pageul .pagelink:link {
+   color: white;
+}
+
+.pageul .pagelink:visited {
+   color: white;
+}
+
+.pageul .pagelink:hover {
+   color: black;
+   background-color: greenyellow;
+   border-radius: 50px;
+}
+
+.paginationdiv {
+
+   display: flex !important;
+   justify-content: center !important;
+   align-items: flex-start !important;
+   overflow: hidden;
+
+}
+
+.popuptext {
+   border-radius: 8px;
+   border: none !important;
+   height: 40px;
+   margin: 15px 0px;
+
+}
+
+.popuptext:focus {
+   outline: none;
+}
+
+.popupbtn {
+   margin-bottom: 5px !important;
+}
+
+.userdisablepage {
+   pointer-events: none;
+   opacity: 0.5;
+}
+
+.popup {
+   position: absolute;
+   top: 240px;
+   left: 0;
+   right: 0;
+   margin-left: auto;
+   margin-right: auto;
+   z-index: 50px !important;
+   border: 3px solid black;
+   border-radius: 40px;
+   background-color: black;
+   color: white;
+   width: fit-content;
+   padding: 0px 30px;
+   text-align: center !important;
+}
+
+textarea::placeholder {
+   color: black;
+   font-weight: bold;
+   text-align: center;
+}
 
 
-.pageul{
-    padding: 6px;
-    background-color: black;
-    border-radius: 50px;
+@media only screen and (max-width:500px) {
+   .popuptext {
+      width: 180px !important;
 
- }
- .pageul .pagelink{
-    color:white;
-    font-weight: bold;
-    cursor: pointer;
-    border: none !important;
-    overflow: hidden;
- }
- 
- .pageul .pagelink:link{
-    color:white;
-  }
-  .pageul .pagelink:visited{
-    color:white;
-  }
-  .pageul .pagelink:hover{
-    color:black;
-    background-color: greenyellow;
-    border-radius: 50px;
-  }
- 
- .paginationdiv{
-   
-    display: flex !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    overflow: hidden;
-    
- }
+   }
+
+   .popup {
+      width: 90% !important;
+      margin-top: 60px;
+   }
+
+}
+

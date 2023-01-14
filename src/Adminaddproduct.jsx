@@ -13,6 +13,7 @@ function Adminaddproduct() {
     const [width, setWidth] = useState(null);
     const [celebrate, setCelebrate] = useState(false)
     const confetiRef = useRef(null);
+
     const addProduct = useFormik({
 
         initialValues: {
@@ -21,7 +22,7 @@ function Adminaddproduct() {
             price: "",
             countInStock: "",
             rating: "",
-            reviews: "",
+            reviews: [],
             category: "",
             description: ""
         },
@@ -37,8 +38,8 @@ function Adminaddproduct() {
 
             if (!values.image) {
                 errors.image = "Please Enter Image Link"
-            } else if (values.image.length < 8 || values.image.length > 15) {
-                errors.image = "Please Enter the 8 to 15 Characters"
+            } else if (values.image.length < 5 ) {
+                errors.image = "Please Enter the upto 5 "
             }
 
             if (!values.price) {
@@ -94,6 +95,7 @@ function Adminaddproduct() {
         setCelebrate(false)
         setAdd(false)
     }
+    
     return (
         <>
 

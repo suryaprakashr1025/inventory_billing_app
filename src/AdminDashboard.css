@@ -1,81 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-*{
-   margin:0;
+* {
+   margin: 0;
    padding: 0;
    box-sizing: border-box;
-   font-family: "poppins",sans-serif;
+   font-family: "poppins", sans-serif;
 }
-#navbar{
+
+.adminnav {
    position: sticky;
    top: 0;
    z-index: 100;
-   padding: .5rem 5rem;
+   padding: .8rem 5rem;
    background-color: rgb(44, 44, 44) !important;
 }
 
-.bold{
-   font-weight: bold;
-   font-size: 21px;
-   color:white;
-}
-
-.nav1{
-   margin-left: 40px;
-   font-weight: bold;
-   font-size: 18px;
-   color:white;
-}
-
-.nav1:hover{
-   border-bottom: 2px solid white;
-   color:orange;
-   transition: .1s;
-}
-
-h5{
-   margin-top:20px;
+.adminnav a {
+   color: white;
    font-weight: bold;
 }
 
+.adminnav a:hover {
+   pointer-events: fill;
+   color: white;
+}
 
-.list{
+.adminnav label {
+   color: white !important;
+   font-weight: bold;
+}
+
+#section1 label{
+   font-size: 20px;
+   font-weight: bold;
+   display: flex;
+   justify-content: center;
+   margin-top: 12px;
+}
+
+#section1 .list {
    background-color: black;
 }
-.list .link{
-   color:white;
+
+#section1 .list .link {
+   color: white;
    font-weight: bold;
 }
 
-.list .link:link{
-   color:white;
- }
- .list .link:visited{
-   color:white;
- }
- .list .link:hover{
-   color:orange;
- }
+#section1 .list .link:link {
+   color: white;
+}
 
-.listitem{
-  
+#section1 .list .link:visited {
+   color: white;
+}
+
+#section1 .list .link:hover {
+   color: orange;
+}
+
+#section1 .listitem {
+
    display: flex !important;
    justify-content: center !important;
    align-items: flex-start !important;
    overflow: hidden;
-   
+
 }
 
-.tableitem{
+ .tableitem {
    /* border: 1px solid black; */
+
    border-radius: 10px;
-   box-shadow: 10px 10px 50px rgba(0,0,0,.5);
+   box-shadow: 10px 10px 50px rgba(0, 0, 0, .5);
    display: flex !important;
    justify-content: center !important;
    align-items: flex-start !important;
-   margin:0px 50px;
-   padding:20px;
+   margin: 0px 50px;
+   padding: 20px;
    overflow: hidden;
    text-align: center;
+
 }
 
+.dashbtn {
+  border: none !important;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.dashbtn:hover{
+   background-color: transparent !important;
+   color:orange;
+}

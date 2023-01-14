@@ -4,20 +4,23 @@ import { useFormik } from "formik"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Config } from "./Config"
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { BsSearch } from 'react-icons/bs'
+import { useState,useContext } from 'react'
+import { UserContext } from './Usercontext'
+
 function Login() {
     const navigate = useNavigate()
+    const findName = useContext(UserContext)
     const [check, setCheck] = useState(false)
     const [response, setResponse] = useState("")
     const [dialog, setDialog] = useState(false)
     const [nav, setNav] = useState(false)
+
     const login = useFormik({
         initialValues: {
             username: "",
             password: ""
         },
+
         validate: (values) => {
             const errors = {}
 
@@ -36,16 +39,20 @@ function Login() {
             }
             return errors;
         },
+
         onSubmit: async (values) => {
             try {
                 const user = await axios.post(check ? `${Config.api}/admin/login` : `${Config.api}/user/login`, values)
-                console.log(user)
+               
                 localStorage.setItem("inventorybill", user.data.token)
                 if (user.data.message === "success") {
                     setDialog(true)
                     login.resetForm()
                     setResponse(user.data.message)
                     setNav(true)
+                    console.log(values.username)
+                    findName.setUsername(values.username)
+                     
                 } else {
                     setDialog(true)
                     setResponse(user.data.message)
@@ -57,9 +64,11 @@ function Login() {
             }
         }
     })
+
     const checkbox = () => {
         setCheck(!check)
     }
+
     const navi = () => {
         if (nav === true) {
             const dashboard = check ? navigate("/admindashboard/userlist") : navigate("/userdashboard")
@@ -69,14 +78,17 @@ function Login() {
         setDialog(false)
     }
 
+
     return (
         <>
             <div className='container login'>
                 <div className="col-lg-4 col-md-6 col-12">
                     <form onSubmit={login.handleSubmit} className={`loginform ${dialog ? "opacity-form" : ""}`}>
-                    <div class="mb-3 text-center">
-                        <h5 class="py-lg-1 py-3">Login Form</h5>
-                    </div>
+
+                        <div class="mb-3 text-center">
+                            <h5 class="py-lg-1 py-3">Login Form</h5>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Username</label>
                             <input
@@ -96,8 +108,6 @@ function Login() {
                             }
                         </div>
 
-
-
                         <div className="mb-3">
                             <label class="form-label">Password</label>
                             <input
@@ -116,7 +126,6 @@ function Login() {
                                 login.errors.password ? <span style={{ color: "red" }}>{login.errors.password}</span> : null
                             }
                         </div>
-
 
                         <div className='mb-3 text-center form-floating'>
                             <input class={`form-check-input ${dialog ? "form" : ""}`}

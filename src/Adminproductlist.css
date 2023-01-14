@@ -1,0 +1,40 @@
+.productbtn {
+    background-color: transparent !important;
+    margin-bottom: 15px !important;
+    padding: 8px 25px;
+    border: 1px solid greenyellow;
+    color: greenyellow;
+}
+
+.productbtn:hover {
+    border: 1px solid red;
+    color: red;
+}
+
+.disablepage {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.productpopup {
+    position: absolute;
+    top: 240px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 50px !important;
+    border: 3px solid black;
+    border-radius: 40px;
+    background-color: black;
+    color: white;
+    width: fit-content;
+    padding: 0px 30px;
+    text-align: center !important;
+}
+
+@media only screen and (max-width:500px){
+    .productpopup{
+        margin-top: 50px;
+    }
+}

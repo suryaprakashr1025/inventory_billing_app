@@ -4,5 +4,7 @@ export const  UserContext = createContext()
 
 export const UserProvider = ({children}) =>{
     const [edit,setEdit] = useState("")
-    return <UserContext.Provider value={{edit,setEdit}}>{children}</UserContext.Provider>
+    const [username, setUsername] = useState("")
+    const [checkProduct,setcheckProduct] = useState("")
+    return <UserContext.Provider value={{edit,setEdit,username,setUsername,checkProduct,setcheckProduct}}>{children}</UserContext.Provider>
 }

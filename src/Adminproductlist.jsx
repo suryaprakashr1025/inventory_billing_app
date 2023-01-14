@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Config } from './Config'
 import { Link } from "react-router-dom"
 import { UserContext } from './Usercontext'
-
+import "./Adminproductlist.css"
 
 
 function Adminproductlist() {
@@ -11,20 +11,23 @@ function Adminproductlist() {
   const [product, setProduct] = useState([])
   const [page, setPage] = useState([])
   const [currentPage, setCurrentpage] = useState()
+  const [confirm, setConfirm] = useState(false)
+  const [message, setMessage] = useState('')
+  const [paramsid, setParamsId] = useState("")
   const perPage = 5
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const start = perPage * 0;
-        const end = start + perPage;
-        const getData = await axios.get(`${Config.api}/getproducts`)
-        setProduct(getData.data)
-        setPage(getData.data.slice(start, end))
-      } catch (error) {
-        alert("something went wrong")
-      }
+  const getData = async () => {
+    try {
+      const start = perPage * 0;
+      const end = start + perPage;
+      const getData = await axios.get(`${Config.api}/getproducts`)
+      setProduct(getData.data)
+      setPage(getData.data.slice(start, end))
+    } catch (error) {
+      alert("something went wrong")
     }
+  }
+  useEffect(() => {
     getData()
   }, [])
 
@@ -42,8 +45,10 @@ function Adminproductlist() {
 
   const deleteItem = async (id) => {
     try {
+      setConfirm(false)
       await axios.delete(`${Config.api}/deleteproduct/${id}`)
-      fetchData()
+      getData()
+      setConfirm(false)
     } catch (error) {
       alert("something went wrong")
     }
@@ -60,13 +65,25 @@ function Adminproductlist() {
       fetchData(currentPage + 1)
     }
   }
+  console.log(product.length)
 
+  const confirmDelete = (id) => {
+    setConfirm(true)
+    setMessage("Are you sure you want to delete ?")
+    setParamsId(id)
+  }
+
+  const no = () =>{
+    setConfirm(false)
+  }
+  
   return (
     <>
 
-      <div className='tableitem'>
 
-        <table class="table ">
+      <div className={`tableitem ${confirm ? "disablepage":null}`} >
+
+        <table class= "table">
           <thead>
             <tr>
               <th scope="col">ProductId</th>
@@ -89,9 +106,9 @@ function Adminproductlist() {
                     <td>{productlist.countInStock}</td>
                     <td>{productlist.rating}</td>
                     <td>
-                      <Link to={`/admindashboard/productlist/${productlist._id}`}  ><i class="fa-solid fa-pen-to-square"></i></Link>
+                      <Link to={`/admindashboard/productlist/${productlist._id}`}><i class="fa-solid fa-pen-to-square"></i></Link>
 
-                      <a onClick={() => deleteItem(productlist._id)}>    <i class="fa fa-trash"></i></a>
+                      <a onClick={() => confirmDelete(productlist._id)}>    <i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
                 )
@@ -102,29 +119,42 @@ function Adminproductlist() {
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation example" className='navpage mx-auto '>
-      <div className='paginationdiv'>
-        <ul class="nav justify-content-center pageul my-3">
-          <li class="nav-item">
-            <a class="nav-link pagelink" onClick={prev}>Prev</a>
-          </li>
-          {
-            //user.length > 1 ?
-            [...Array(Math.ceil(product.length / perPage))].map((page, index) => {
-              return (
-                <li class="nav-item">
-                  <a class="nav-link pagelink" onClick={() => fetchData(index)}>{index + 1}</a>
-                </li>
-              )
-            })
-            //: null
-          }
-          <li class="nav-item">
-            <a class="nav-link pagelink" onClick={next}>Next</a>
-          </li>
-        </ul>
-        </div>
-      </nav>
+
+      {product.length > 5 ?
+        <nav aria-label="Page navigation example" className={`navpage mx-auto ${confirm ? "disablepage":null}`}>
+          <div className='paginationdiv'>
+            <ul class="nav justify-content-center pageul my-3">
+              <li class="nav-item">
+                <a class="nav-link pagelink" onClick={prev}>Prev</a>
+              </li>
+              {
+                product.length > 5 ?
+                  [...Array(Math.ceil(product.length / perPage))].map((page, index) => {
+                    return (
+                      <li class="nav-item">
+                        <a class="nav-link pagelink" onClick={() => fetchData(index)}>{index + 1}</a>
+                      </li>
+                    )
+                  })
+                  : null
+              }
+              <li class="nav-item">
+                <a class="nav-link pagelink" onClick={next}>Next</a>
+              </li>
+            </ul>
+          </div>
+        </nav> : null
+      }
+
+      {
+        confirm ?
+          <div className='productpopup mx-auto '>
+            <h5>{message}</h5>
+            <hr className='horizontal' />
+            <button class="btn btn-primary productbtn mx-3" onClick={() => deleteItem(paramsid)}>Yes</button>
+            <button class="btn btn-primary productbtn mx-3" onClick={() => no()}>No</button>
+          </div> : null
+      }
     </>
   )
 }

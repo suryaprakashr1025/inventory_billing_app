@@ -1,6 +1,6 @@
 import './App.css';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ChangePassword from './Changepassword';
@@ -11,13 +11,11 @@ import Adminproductlist from './Adminproductlist';
 import Adminuserlist from './Adminuserlist';
 import Admineditproduct from './Admineditproduct';
 import Adminaddproduct from './Adminaddproduct';
-import { UseProvider } from './Usercontext';
-import { useEffect } from 'react';
+import Adminchartlist from './Adminchartlist';
+import Viewuserproduct from './Viewuserproduct';
+
 function App() {
-  // const navigate = useNavigate()
-  // useEffect(()=>{
-  //   navigate("/admindashboard/userlist")
-  // })
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -32,9 +30,12 @@ function App() {
         <Route path="/admindashboard/productlist" element={<Adminproductlist />} />
         <Route path="/admindashboard/userlist" element={<Adminuserlist />} />
         <Route path="/admindashboard/addproduct" element={<Adminaddproduct />} />
+        <Route path="/admindashboard/chartlist" element={<Adminchartlist />} />
 
         </Route>
+        
         <Route path="/admindashboard/productlist/:editproductparams" element={<Admineditproduct />} />
+        <Route path="/userdashboard/productlist/:getproduct" element={<Viewuserproduct/>}/>
       </Routes>
     </BrowserRouter>
   );
