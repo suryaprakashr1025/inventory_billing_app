@@ -168,6 +168,7 @@
     border: 1px solid black;
     height: 50px;
     margin: 0px 10px;
+
 }
 
 .cartcontainer .productbox {
@@ -179,13 +180,12 @@
 }
 
 .cartcontainer .cartimg {
-    width: 100px;
+ 
     height: 140px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
-@media only screen and (max-width:900px) {
-    #cartitems .cartcontainer .bilbox {
 
-        margin: 10px auto;
-    }
-}

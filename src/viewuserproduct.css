@@ -23,17 +23,18 @@
 
 .viewproduct .viewname {
     display: flex;
-    justify-content: center;
+    /* justify-content: center;  */
     padding: 18px 0px;
     background-image: linear-gradient(to right, #FF4066, #FFF16A);
-    color: white;
-    font-size: 20px;
+
+
 }
 
-.viewproduct .viewname h4 {
+.viewproduct .viewname h6 {
     font-weight: bold;
-    font-size: 32px;
     color: white;
+    margin-left: 42%;
+    font-size: 25px;
 }
 
 .viewproduct .viewheadpara {
@@ -61,9 +62,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-.pqd .viewheadpara p:hover{
+
+.pqd .viewheadpara p:hover {
     cursor: grab;
 }
+
 .pqd .viewheadpara h3 {
     color: rgb(230, 114, 37);
     font-weight: bold;
@@ -78,16 +81,19 @@
     background-color: white;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
-.pqd .pricequantity h4{
-    color:rgb(230, 114, 37);
+
+.pqd .pricequantity h4 {
+    color: rgb(230, 114, 37);
     font-weight: bold;
 }
-.pqd .pricequantity h6{
-   
+
+.pqd .pricequantity h6 {
+
     font-weight: bold;
 }
-.pqd .pricequantity .selectqty{
-    width:70%;
+
+.pqd .pricequantity .selectqty {
+    width: 70%;
     text-align: center;
     font-weight: bold;
     background-color: white;
@@ -102,23 +108,95 @@
     align-items: center;
 }
 
-.viewproduct .viewbutton{
+.viewproduct .viewbutton {
     display: flex;
     justify-content: center;
     padding-bottom: 20px;
 }
-.viewproduct .viewbutton .inputbtn{
+
+.viewproduct .viewbutton .inputbtn {
     padding: 7px 0px;
     background-color: transparent;
     border: 1px solid white;
     font-weight: bold;
     font-size: 20px;
     width: 50%;
-}   
+}
 
-.viewproduct .viewbutton .inputbtn:hover{
+.viewproduct .viewbutton .inputbtn:hover {
     /* border:2px solid black;
     color:black; */
     border: none;
-    background-image:linear-gradient(to right, #6b82ec9f, #8c42ee);
+    background-image: linear-gradient(to right, #6b82ec9f, #8c42ee);
+}
+
+.viewproduct .viewname .viewback {
+    cursor: pointer;
+    background-color: transparent !important;
+    border: none;
+    /* margin-left: 34% !important; */
+    font-weight: bold;
+    padding: 0 !important;
+    margin-left: 550%;
+    font-size: 25px;
+}
+
+.viewproduct .viewname .viewback:hover{
+    color:rgb(148, 66, 12);
+}
+
+@media only screen and (max-width:1200px){
+    .viewproduct .viewname .viewback{
+        margin-left: 250px;
+    }
+}
+
+@media only screen and (max-width:992px) {
+    .viewproduct .viewname .viewback{
+        margin-left: 100px;
+    }
+}
+
+@media only screen and (max-width:768px){
+    .viewproduct .viewname .viewback{
+        margin-left: 100px;
+        font-size: 20px;
+    }
+    .viewproduct .viewname h6{
+        margin-left: 180px;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width:515px){
+    .viewproduct .viewname .viewback{
+        margin-left: 80px;
+        font-size: 20px;
+    }
+    .viewproduct .viewname h6{
+        margin-left: 150px;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width:460px){
+    .viewproduct .viewname .viewback{
+        margin-left: 70px;
+        font-size: 20px;
+    }
+    .viewproduct .viewname h6{
+        margin-left: 120px;
+        font-size: 20px;
+    }
+}
+@media only screen and (max-width:410px){
+    .viewproduct .viewname .viewback{
+        display: block;
+        margin-left: 50px;
+        font-size: 20px;
+    }
+    .viewproduct .viewname h6{
+        margin-left: 30px;
+        font-size: 20px;
+    }
 }

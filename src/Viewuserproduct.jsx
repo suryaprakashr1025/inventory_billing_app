@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
 import { Config } from './Config'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import "./viewuserproduct.css"
 import { UserContext } from './Usercontext'
 
@@ -17,7 +17,7 @@ function Viewuserproduct() {
     const [qty,setQty] = useState(1)
     const [btndisabled, setBtnDisabled] = useState(false)
     const [check, setCheck] = useState("")
-
+    const navigate = useNavigate()
     const { getproduct } = useParams()
 
     const checkpro = checkproduct.some(prodid =>{
@@ -40,10 +40,9 @@ function Viewuserproduct() {
         getData()
     })
 
-   
-           
-
-
+   const back = () =>{
+    navigate("/userdashboard")
+   }
     const opt = []
     for (let i = 1; i <= options; i++) {
         opt.push(i)
@@ -82,12 +81,13 @@ function Viewuserproduct() {
                             {
                                 getProduct.map(prod => {
                                     return (
-                                        <h4>{prod.name}</h4>
+                                        <h6>{prod.name}</h6>
                                     )
                                 })
                             }
+                            <a onClick={back}><h6 className='viewback'>Back</h6></a>
                         </div>
-
+                       
                         <div className='col-lg-4 viewimgbtn'>
                             {
                                 getProduct.map(prod => {

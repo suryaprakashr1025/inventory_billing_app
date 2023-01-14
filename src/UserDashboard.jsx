@@ -140,7 +140,7 @@ function UserDashboard() {
                         <hr></hr>
                       </div>
                       <div className='col-lg-4'>
-                        <img src={userproduct.image} className="img-fluid cartimg" />
+                        <img src={userproduct.image} className="img-fluid cartimg mx-auto" />
                       </div>
                       <div className='col-lg-6 text-center'>
                         <h6 style={{ color: "white",fontWeight:"bold" }} >Quantity</h6>
