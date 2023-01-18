@@ -135,8 +135,9 @@
     /* background-image: linear-gradient(to right, rgb(146, 135, 135), rgb(223, 212, 212)); */
     /* background-color: white; */
     /* box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);  */
-    height: 70vh;
+    height: fit-content;
     padding: 5px 0px;
+
 }
 
 #cartitems .cartcontainer .cartrow {
@@ -160,15 +161,27 @@
     scrollbar-width: none;
 }
 
-#cartitems .cartcontainer .detailsbox:hover{
-    cursor:grab;
+#cartitems .cartcontainer .detailsbox:hover {
+    cursor: grab;
 }
 
 #cartitems .cartcontainer .bilbox {
     border: 1px solid black;
-    height: 50px;
+    height: fit-content;
     margin: 0px 10px;
 
+}
+
+#cartitems .cartcontainer .bilbox::-webkit-scrollbar {
+    display: none;
+}
+
+#cartitems .cartcontainer .bilbox {
+    -ms-overflow-style: none;
+}
+
+#cartitems .cartcontainer .bilbox:hover {
+    cursor: grab;
 }
 
 .cartcontainer .productbox {
@@ -180,7 +193,7 @@
 }
 
 .cartcontainer .cartimg {
- 
+
     height: 140px;
     display: block;
     margin-left: auto;
@@ -189,3 +202,45 @@
 }
 
 
+.bilbox .download:hover {
+    border: none !important;
+    background-color: rgb(194, 46, 9) !important;
+    color: rgb(235, 161, 161) !important
+}
+
+#download {
+    background-color: rgb(224, 147, 84);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 258px 150px;
+    width: fit-content;
+    text-align: center;
+}
+
+#download .pdftr .pdftd {
+    font-size: 12px !important;
+}
+
+.productbox .remove:hover {
+    border: none !important;
+    background-color: rgb(194, 46, 9) !important;
+    color: rgb(235, 161, 161) !important
+}
+
+.popupbox {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.popupalign {
+    background-image: linear-gradient(to right, rgb(173, 92, 240), rgb(210, 93, 240));
+    z-index: 50px !important;
+    padding: 10px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    margin-top: -380px;
+}
+
+.popupbtn{
+    
+}
