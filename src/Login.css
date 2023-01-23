@@ -31,7 +31,7 @@ body{
     border-radius:30px;
 }
 .loginform:hover{
-    transform: scale(1.1);
-    transition: 1s;
+    /* transform: scale(1.1);
+    transition: 1s; */
 }
 

@@ -4,10 +4,13 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
 import { Config } from './Config'
 import { FcRating } from 'react-icons/fc';
+import { FaTimes } from 'react-icons/fa';
 import { Link } from "react-router-dom"
 import { UserContext } from './Usercontext'
 import { jsPDF } from 'jspdf'
+import { InfinitySpin, Vortex, ColorRing } from 'react-loader-spinner'
 import logo from "./logo.svg"
+
 function UserDashboard() {
 
   const findName = useContext(UserContext)
@@ -16,14 +19,22 @@ function UserDashboard() {
   const [product, setProduct] = useState([])
   const [user, setUser] = useState([])
   const [priceValue, setPriceValue] = useState(0)
-  const [table, setTable] = useState(false)
+  const [table, setTable] = useState(true)
   const [popup, setPopup] = useState(false)
   const [productid, setProductid] = useState("")
+  const [productName, setProductName] = useState("")
+  const [touched, setTouched] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [loading1, setLoading1] = useState(false)
+
+  const [collapse, setCollapse] = useState(true)
 
   const getProducts = async () => {
     try {
+      setLoading(true)
       const getData = await axios.get(`${Config.api}/getProducts`)
       setProduct(getData.data)
+      setLoading(false)
     } catch (error) {
       alert("something went wrong")
     }
@@ -36,25 +47,28 @@ function UserDashboard() {
       const uId = getUser.data[userId]._id
 
       const getoneuser = await axios.get(`${Config.api}/getoneuser/${uId}`)
+      //console.log(getoneuser.data[0].products)
+      findName.setcheckProduct(getoneuser.data[0].products)
       setUser(getoneuser.data[0].products)
 
-      findName.setcheckProduct(getoneuser.data[0].products)
-
-      const result = user.reduce((i, c) => {
+      const result = getoneuser.data[0].products.reduce((i, c) => {
         return i + c.price
       }, 0)
-      setPriceValue(result)
 
+      //console.log(result)
+      setPriceValue(result)
     } catch (error) {
       alert("getUser error")
     }
   }
 
   const receipt = () => {
-    setTable(true)
+    setTable(false)
+
     const doc = new jsPDF("p", "pt", "a4")
     doc.html(document.querySelector("#download"), {
       callback: function (pdf) {
+
         let result = doc.internal.getNumberOfPages()
 
         for (let i = result; i > 1; i--) {
@@ -62,33 +76,52 @@ function UserDashboard() {
         }
 
         pdf.save("Receipt.pdf");
+        setTable(true)
       }
     }
     )
-    setTable(false)
+
   }
 
   useEffect(() => {
     getProducts()
     getuserproduct()
-  })
+  }, [])
 
   const remove = (proid) => {
-
+    setLoading1(true)
     setPopup(true)
     setProductid(proid)
-    // console.log(proid)
+    setLoading1(false)
   }
 
   const yes = async () => {
     try {
+
+      setLoading1(true)
       const getUser = await axios.get(`${Config.api}/getusers`)
       const userId = getUser.data.findIndex(user => user.username === uname)
       const uId = getUser.data[userId]._id
-      // console.log(uId)
+
+      const findproductid = getUser.data[userId].products.findIndex(product => product.id === productid)
+      console.log(getUser.data[userId].products[findproductid].Quantity)
+
+      const qtylen = await axios.get(`${Config.api}/getoneproduct/${productid}`)
+      console.log(qtylen.data.countInStock)
+
+      const stack = parseInt(getUser.data[userId].products[findproductid].Quantity) + parseInt(qtylen.data.countInStock)
+      console.log(stack)
+
+      const changeqty = await axios.put(`${Config.api}/changequantity/${productid}`, {
+        countInStock: stack
+      })
+
       const removeCart = await axios.put(`${Config.api}/userdeleteproduct/${uId}`, { id: productid })
-      // console.log(removeCart.data)
+
+      getuserproduct()
       setPopup(false)
+      setLoading1(false)
+
     } catch (error) {
       alert("delete from cart error")
     }
@@ -98,208 +131,301 @@ function UserDashboard() {
     setPopup(false)
   }
 
+  const search = (name) => {
+    // setProductName(name)
+    // console.log(searchProduct[0]._id)
+    console.log(name)
+  }
+  // if(!isNaN(productName)){
+  //   console.log("please enter string only")
+  // }
+  // console.log(productName.length)
+  // console.log(product.filter(p => p.name.toLowerCase().includes(productName)))
+
+  const handleClick = () => {
+    setCollapse(false)
+  }
+  const handleclose = () => {
+    setCollapse(true)
+  }
   return (
     <>
-
-
-      <nav class="navbar navbar-expand-lg bg-light user">
+      {/* navbar */}
+      <nav class="navbar navbar-expand-lg bg-light user ">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Inventory Billing App</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          {
+            collapse ? <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onClick={handleClick}>
+              <span class="navbar-toggler-icon"></span>
+            </button> :
+              <button class="navbar-toggler close" type="button" onClick={handleclose}>
+                <span><FaTimes /></span>
+              </button>
+          }
+
+          <div class={`${collapse ? "collapse" : ""} navbar-collapse`} id="navbarNavDropdown">
+            <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#home">Home</a>
+                <a class="nav-link" aria-current="page" href="#home">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#products">Products</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#cartitems">MyCart</a>
+                <a class="nav-link" href="#cartitems">Cart</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  My Account
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Email</a></li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
               </li>
 
             </ul>
-
           </div>
         </div>
       </nav>
 
+      {/* popup */}
+      {
+        popup ? <div className='mx-auto text-center py-2 popupalign'
+          style={{
+            width: "60%",
+            borderRadius: "25px"
+          }}>
+
+          <label>
+            Would you like to remove product from cart?</label>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: "5px" }} className="col-lg-12 py-2 ">
+
+            <button className="btn btn-outline-dark popupbtn" onClick={yes}
+              style={{
+                width: "fit-content",
+                border: "1px solid black",
+                fontWeight: "bold"
+              }}>{loading1 ? <ColorRing
+                visible={true}
+                height="30"
+                width="50"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={['white', 'white', 'white', 'white', 'white']}
+              /> : "Yes"}</button>
+
+            <button className="btn btn-outline-dark popupbtn" onClick={no}
+              style={{
+                width: "fit-content",
+                border: "1px solid black",
+                fontWeight: "bold"
+              }}> No</button>
+
+          </div>
+        </div> : null
+      }
+
+
       {/* Home */}
-      <section id="home" className={`usersection ${popup ? "popupbox" : null}`}>
-        <div className='text-center homediv' >
-          <label>Hi, {uname}</label>
-          <h3>Welcome to our Site</h3>
-          <input className='form-control mx-auto' type="text" placeholder='search products' />
-          <button className="btn btn-outline-primary my-2">Search</button>
+      <section id="home" className={` usersection ${popup ? "popupbox" : null}`}>
+
+        <div className='text-center homediv ' >
+          <label className="homelabel">Hi, {uname}</label>
+          <h3 className="homehead">Welcome to our Site</h3>
+          <input type="text"
+            placeholder='search products'
+            value={productName}
+            onBlur={() => setTouched(true)}
+            onChange={(e) => { setProductName(e.target.value) }}
+            className="form-control mx-auto homesearch" />
+          {
+            !isNaN(productName) && touched && productName.length !== 0 ? <span style={{ color: "red" }}>Please enter string only</span> : null
+          }
+          {/* search */}
+
+          <div className='mx-auto' id="myUL">
+            {
+              productName.length > 0 ?
+                <ul className='mx-auto' style={{ listStyleType: "none" }}>
+                  <li className='myli'>
+                    {
+                      product.filter(p => p.name.toLowerCase().includes(productName))
+                        .map(pro => <a className='mya' onClick={search(pro.name)}>{pro.name}</a>)}
+                  </li>
+                </ul> : null
+            }
+          </div>
         </div>
+
+
       </section>
+
+
 
       {/* Products */}
       <section id="products" className={`mx-auto usersection  ${popup ? "popupbox" : null}`}>
-        <div className='container'>
-          <h1 className='proh1 mx-auto'>All Products</h1>
-          <div className='row'>
-            {
-              product.map(prod => {
-                return (
-                  <div className='products col-lg-4 '>
-                    <div class="card" >
-                      <img src={prod.image} class="card-img-top mx-auto" alt="" />
+        {
+          loading ? <InfinitySpin
+            width='200'
+            color="white"
+          /> :
+            <div className='container'>
+              <h1 className={`${loading ? "loadingpro" : "proh1"} mx-auto`}>All Products</h1>
+              <div className='row'>
+                {
+                  product.filter(p => p.name.toLowerCase().includes(productName)).map(prod => {
+                    return (
+                      <div className='products col-lg-4 '>
+                        <div class="card" >
+                          <img src={prod.image} class="card-img-top mx-auto" alt="" />
 
-                      <div class="card-body">
-                        <h5 class="card-title text-center">{prod.name}</h5>
+                          <div class="card-body">
+                            <h5 class="card-title text-center">{prod.name}</h5>
+                          </div>
+
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Rating: {prod.rating}<FcRating /></li>
+                            <li class="list-group-item">Price: {prod.price}</li>
+                          </ul>
+
+                          <div className='cardbutton mx-auto py-3'>
+                            <Link to={`/userdashboard/productlist/${prod._id}`} type="button" class="btn btn-outline-primary">View Details</Link>
+                          </div>
+
+                        </div>
+
                       </div>
+                    )
+                  })
+                }
 
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Rating: {prod.rating}<FcRating /></li>
-                        <li class="list-group-item">Price: {prod.price}</li>
-                      </ul>
-
-                      <div className='cardbutton mx-auto py-3'>
-                        <Link to={`/userdashboard/productlist/${prod._id}`} type="button" class="btn btn-outline-primary">View Details</Link>
-                      </div>
-
-                    </div>
-                  </div>
-                )
-              })
-            }
-
-          </div>
-        </div>
+              </div>
+            </div>
+        }
       </section>
 
       {/* cartitems */}
       <section id="cartitems" className="mx-auto" >
-        <div>
-          <h1 className='text-center' style={{ color: "white", fontWeight: "bold" }}>My Cart Items</h1>
-        </div>
         {
-          user.length > 0 ?
 
-            <div className={`container cartcontainer my-5 ${popup ? "popupbox" : null}`}>
-              <div className='row cartrow'>
-                <div className='col-lg-7 detailsbox '>
-                  {
-                    user.map(userproduct => {
-                      return (
-                        <div className='row productbox'>
-                          <div className='col-lg-12 '>
-                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>{userproduct.name}</h6>
-                            <hr></hr>
+          loading ? <div className='cartload'><Vortex
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="vortex-loading"
+            wrapperStyle={{}}
+            wrapperClass="vortex-wrapper"
+            colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+          />
+          </div> :
+            <div>
+              <div>
+                <h1 className='text-center carthead' style={{ color: "white", fontWeight: "bold" }}>My Cart Items</h1>
+              </div>
+              {
+                user.length > 0 ?
+
+                  <div className={`container cartcontainer my-5 ${popup ? "popupbox" : null}`}>
+                    <div className='row cartrow'>
+                      <div className='col-lg-7 detailsbox '>
+                        {
+                          user.map(userproduct => {
+                            return (
+                              <div className='row productbox'>
+                                <div className='col-lg-12 '>
+                                  <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>{userproduct.name}</h6>
+                                  <hr></hr>
+                                </div>
+                                <div className='col-lg-4'>
+                                  <img src={userproduct.image} className="img-fluid cartimg mx-auto" />
+                                </div>
+                                <div className='col-lg-6 text-center cartqtyprice'>
+                                  <h6 style={{ color: "white", fontWeight: "bold" }} >Quantity</h6>
+                                  <h6 style={{ fontWeight: "bold" }}>{userproduct.Quantity}</h6>
+                                  <hr></hr>
+                                  <h6 style={{ color: "white", fontWeight: "bold" }}>Total Price</h6>
+                                  <h6 style={{ fontWeight: "bold" }}>Rs.{userproduct.price}</h6>
+                                </div>
+                                <div className='col-lg-12 text-center my-3'>
+                                  <button className='btn btn-outline-dark remove' onClick={() => remove(userproduct.id)}
+                                    style={{ width: "fit-content", fontWeight: "bold" }}>Remove</button>
+                                </div>
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                      <div className='col-lg-4 bilbox'>
+                        <div className='row '>
+
+
+                          <div className='col-lg-12'>
+                            <h6 className='text-center my-2' style={{ color: "white", fontWeight: "bold" }}>Price Details</h6>
+                            <hr />
                           </div>
-                          <div className='col-lg-4'>
-                            <img src={userproduct.image} className="img-fluid cartimg mx-auto" />
+                          <div className='col-lg-6 col-md-6 col-6'>
+                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>ProductName</h6>
+                            <hr />
                           </div>
-                          <div className='col-lg-6 text-center'>
-                            <h6 style={{ color: "white", fontWeight: "bold" }} >Quantity</h6>
-                            <h6 style={{ fontWeight: "bold" }}>{userproduct.Quantity}</h6>
-                            <hr></hr>
-                            <h6 style={{ color: "white", fontWeight: "bold" }}>Total Price</h6>
-                            <h6 style={{ fontWeight: "bold" }}>Rs.{userproduct.price}</h6>
-                          </div>
-                          <div className='col-lg-12 text-center my-3'>
-                            <button className='btn btn-outline-dark remove' onClick={() => remove(userproduct.id)}
-                              style={{ width: "fit-content", fontWeight: "bold" }}>Remove</button>
+                          <div className='col-lg-6 col-md-6 col-6'>
+                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Price</h6>
+                            <hr />
                           </div>
                         </div>
-                      )
-                    })
-                  }
-                </div>
-                <div className='col-lg-4 bilbox'>
-                  <div className='row '>
 
+                        {
+                          user.map(prodnameprice => {
+                            return (
+                              <div className='row'>
 
-                    <div className='col-lg-12'>
-                      <h6 className='text-center my-2' style={{ color: "white", fontWeight: "bold" }}>Price Details</h6>
-                      <hr />
-                    </div>
-                    <div className='col-lg-6 col-md-6 col-6'>
-                      <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>ProductName</h6>
-                      <hr />
-                    </div>
-                    <div className='col-lg-6 col-md-6 col-6'>
-                      <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Price</h6>
-                      <hr />
-                    </div>
-                  </div>
+                                <div className='col-lg-6 col-md-6 col-6'>
+                                  <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>{prodnameprice.name}</h6>
+                                </div>
 
-                  {
-                    user.map(prodnameprice => {
-                      return (
+                                <div className='col-lg-6 col-md-6 col-6'>
+                                  <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>Rs.{prodnameprice.price}</h6>
+                                </div>
+
+                              </div>
+                            )
+                          })
+                        }
+                        <hr />
                         <div className='row'>
 
                           <div className='col-lg-6 col-md-6 col-6'>
-                            <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>{prodnameprice.name}</h6>
+                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Total</h6>
                           </div>
 
                           <div className='col-lg-6 col-md-6 col-6'>
-                            <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>Rs.{prodnameprice.price}</h6>
+                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Rs.{priceValue}</h6>
                           </div>
 
                         </div>
-                      )
-                    })
-                  }
-                  <hr />
-                  <div className='row'>
+                        <hr />
+                        <div className='col-lg-12 text-center my-2'>
+                          <button className='btn btn-outline-success download'
+                            style={{ color: "black", fontWeight: "bold", border: "1px solid black" }}
+                            onClick={receipt}>
+                            Receipt
+                          </button>
+                        </div>
+                      </div>
 
-                    <div className='col-lg-6 col-md-6 col-6'>
-                      <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Total</h6>
                     </div>
+                  </div> : <h3 className='text-center my-3' style={{ fontWeight: "bold" }}>No Cart Items</h3>
+              }
 
-                    <div className='col-lg-6 col-md-6 col-6'>
-                      <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Rs.{priceValue}</h6>
-                    </div>
-
-                  </div>
-                  <hr />
-                  <div className='col-lg-12 text-center my-2'>
-                    <button className='btn btn-outline-success download'
-                      style={{ color: "black", fontWeight: "bold", border: "1px solid black"}}
-                      onClick={receipt}>
-                      Receipt
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-            </div> : <h3 className='text-center my-3' style={{ fontWeight: "bold" }}>No Cart Items</h3>
-        }
-        {
-          popup ? <div className='mx-auto text-center py-2 popupalign'
-            style={{
-              width: "60%",
-              borderRadius: "25px"
-            }}>
-
-            <label>Would you like to remove products from cart?</label>
-
-            <div style={{ display: "flex", justifyContent: "center", gap: "5px" }} className="col-lg-12 py-2 ">
-
-              <button className="btn btn-outline-dark popupbtn" onClick={yes}
-                style={{
-                  width: "fit-content",
-                  border: "1px solid black",
-                  
-                }} >Yes</button>
-
-              <button  className="btn btn-outline-dark popupbtn" onClick={no}
-                style={{
-                  width: "fit-content",
-                  border: "1px solid black",
-                }} > No</button>
 
             </div>
-          </div> : null
         }
       </section>
 
-
-      <div className='container' id="download" hidden>
+      {/* download receipt */}
+      <div className={`container ${table ? "hide" : null}`} id="download">
         <h1 className='text-center' style={{ fontSize: "20px", fontWeight: "bold", color: "rgb(10, 50, 100)" }}>Inventory Billing App</h1>
         <h4 className='text-center' style={{ fontSize: "16px", fontWeight: "bold", color: "rgb(10, 50, 100)" }}>Hi {uname} This is your price details</h4>
         <table class="table table-bordered border-dark">
@@ -319,7 +445,7 @@ function UserDashboard() {
                     <td className='pdftd'>{prod.name}</td>
                     <td className='pdftd'>{prod.price / prod.Quantity}</td>
                     <td className='pdftd'>{prod.Quantity}</td>
-                    <td className='pdftd'>{prod.price}</td>
+                    <td className='pdftd'>Rs.{prod.price}</td>
                   </tr>
                 )
               })
@@ -328,11 +454,12 @@ function UserDashboard() {
           <tfoot>
             <tr style={{ color: "white", fontSize: "13px" }}>
               <th colSpan={3}>Total</th>
-              <th>{priceValue}</th>
+              <th>Rs.{priceValue}</th>
             </tr>
           </tfoot>
         </table>
       </div>
+
     </>
   )
 }

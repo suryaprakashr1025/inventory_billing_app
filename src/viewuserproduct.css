@@ -1,9 +1,22 @@
-.viewproduct {
-
-    margin-top: 22px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+.loading{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: linear-gradient(to right, #FF4066, #FFF16A);
+}
+
+.box {
+    background-image: linear-gradient(to right, #FF4066, #FFF16A);
+    padding-bottom: 48px;
+    height: fit-content;
+}
+
+.viewproduct {
+    width: 100%;
     overflow: hidden;
+    height: fit-content;
 }
 
 .viewproduct .viewimgbtn {
@@ -19,23 +32,6 @@
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-
-
-.viewproduct .viewname {
-    display: flex;
-    /* justify-content: center;  */
-    padding: 18px 0px;
-    background-image: linear-gradient(to right, #FF4066, #FFF16A);
-
-
-}
-
-.viewproduct .viewname h6 {
-    font-weight: bold;
-    color: white;
-    margin-left: 42%;
-    font-size: 25px;
-}
 
 .viewproduct .viewheadpara {
     width: 90%;
@@ -130,27 +126,14 @@
     background-image: linear-gradient(to right, #6b82ec9f, #8c42ee);
 }
 
-.viewproduct .viewname .viewback {
-    cursor: pointer;
-    background-color: transparent !important;
-    border: none;
-    /* margin-left: 34% !important; */
-    font-weight: bold;
-    padding: 0 !important;
-    margin-left: 550%;
-    font-size: 25px;
-}
 
-.viewproduct .viewname .viewback:hover{
-    color:rgb(148, 66, 12);
-}
 
-.celebratedisabled{
+.celebratedisabled {
     pointer-events: none;
     opacity: 0.5;
 }
 
-.celebratediv{
+.celebratediv {
     background-color: #69d620;
     width: 30%;
     border-radius: 25px;
@@ -159,59 +142,128 @@
     z-index: 150px !important;
     margin-top: -350px;
 }
-
-@media only screen and (max-width:1200px){
-    .viewproduct .viewname .viewback{
-        margin-left: 250px;
-    }
+.popuploading{
+    background-color: #69d620;
+    width: 30%;
+    border-radius: 25px;
+    padding: 15px;
+    position: relative;
+    z-index: 150px !important;
+    margin-top: -350px;
+}
+.viewproduct .viewback {
+    color: rgb(221, 47, 47);
 }
 
-@media only screen and (max-width:992px) {
-    .viewproduct .viewname .viewback{
-        margin-left: 100px;
+.viewproduct .viewback:hover {
+    color: rgb(172, 54, 219) !important;
+    cursor: pointer;
+}
+
+.viewproduct .viewname {
+
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.viewproduct .viewback {
+
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.confetti {
+    width: 100%;
+ 
+}
+
+
+@media screen and (min-width:300px) and (max-width:991px) {
+    .viewproduct .viewname {
+        text-align: center !important;
+        padding-top: 20px;
+        margin-bottom: 0px !important;
+    }
+
+    .viewproduct .viewback {
+        text-align: center !important;
+        padding-top: 0px;
+        margin-bottom: 0px !important;
+    }
+
+    .viewproduct .viewbutton .inputbtn {
+        margin-bottom: 20px !important;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pqd .pricequantity {
+        width: 300px;
+
+    }
+
+    .pqd .pricequantity h4 {
+        font-size: 16px;
+    }
+
+    .pqd .pricequantity h6 {
+        font-size: 15px;
+    }
+
+    .pqd .pricequantity .selectqty {
+        width: 80%;
+    }
+
+    .pqd .viewheadpara h3 {
+        font-size: 18px;
+    }
+  
+
+}
+
+@media screen and (min-width:300px) and (max-width:500px) {
+    .viewproduct .viewimgbtn img {
+        width: 300px;
+        height: 180px;
+    }
+
+    .viewproduct .viewheadpara {
+        width: 300px;
+        height: 180px;
+    }
+
+    .celebratediv {
+
+        width: 80%;
+        font-size: 16px;
+        padding: 15px;
+        position: relative;
+        z-index: 150px !important;
+        margin-top: -500px;
     }
 }
 
-@media only screen and (max-width:768px){
-    .viewproduct .viewname .viewback{
-        margin-left: 100px;
-        font-size: 20px;
-    }
-    .viewproduct .viewname h6{
-        margin-left: 180px;
-        font-size: 20px;
+@media screen and (min-width:500px) and (max-width:850px){
+    .celebratediv {
+
+        width: 60%;
+        font-size: 16px;
+        padding: 15px;
+        position: relative;
+        z-index: 150px !important;
+        margin-top: -500px;
     }
 }
 
-@media only screen and (max-width:515px){
-    .viewproduct .viewname .viewback{
-        margin-left: 80px;
-        font-size: 20px;
+@media screen and (min-width:300px) and (max-width:350px) {
+    .viewproduct {
+        padding: 0px 30px;
     }
-    .viewproduct .viewname h6{
-        margin-left: 150px;
-        font-size: 20px;
+
+    .viewproduct .viewbutton .inputbtn {
+        padding: 8px 10px;
+        font-size: 17px !important;
     }
 }
 
-@media only screen and (max-width:460px){
-    .viewproduct .viewname .viewback{
-        margin-left: 70px;
-        font-size: 20px;
-    }
-    .viewproduct .viewname h6{
-        margin-left: 120px;
-        font-size: 20px;
-    }
-}
-@media only screen and (max-width:410px){
-    .viewproduct .viewname .viewback{
-        display: block;
-        margin-left: 50px;
-        font-size: 20px;
-    }
-    .viewproduct .viewname h6{
-        margin-left: 30px;
-        font-size: 20px;
-    }
-}
