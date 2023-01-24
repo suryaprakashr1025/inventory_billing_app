@@ -45,14 +45,15 @@ function Login() {
                 const user = await axios.post(check ? `${Config.api}/admin/login` : `${Config.api}/user/login`, values)
                
                 localStorage.setItem("inventorybill", user.data.token)
+                
                 if (user.data.message === "success") {
                     setDialog(true)
                     login.resetForm()
                     setResponse(user.data.message)
                     setNav(true)
-                    console.log(values.username)
-                    findName.setUsername(values.username)
-                     
+                    // console.log(values.username)
+                    // findName.setUsername(values.username)
+                    localStorage.setItem("name",values.username)
                 } else {
                     setDialog(true)
                     setResponse(user.data.message)

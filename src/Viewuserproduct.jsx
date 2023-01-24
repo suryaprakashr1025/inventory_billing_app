@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import "./viewuserproduct.css"
 import { UserContext } from './Usercontext'
 import Confetti from 'react-confetti'
-import { ThreeDots,Rings } from 'react-loader-spinner'
+import { ThreeDots, Rings } from 'react-loader-spinner'
 function Viewuserproduct() {
 
     const findName = useContext(UserContext)
@@ -60,13 +60,13 @@ function Viewuserproduct() {
             setLoading1(true)
             const stack = options - qty
             const change = stack.toString()
-            console.log(change)
-            console.log(typeof change)
+            // console.log(change)
+            // console.log(typeof change)
             const changeqty = await axios.put(`${Config.api}/changequantity/${getproduct}`, {
                 countInStock: stack
             })
             const getUser = await axios.get(`${Config.api}/getusers`)
-            const userId = getUser.data.findIndex(user => user.username === uname)
+            const userId = getUser.data.findIndex(user => user.username === localStorage.getItem("name"))
             const uId = getUser.data[userId]._id
 
             const reviewsList = await axios.put(`${Config.api}/usergetproduct/${uId}`, {
@@ -81,6 +81,15 @@ function Viewuserproduct() {
             setBtnDisabled(true)
             setLoading1(false)
             setCelebrate(true)
+            
+            const order = await axios.post(`${Config.api}/orderproduct`, {
+                username: localStorage.getItem("name"),
+                productname: getProduct[0].name,
+                price: getProduct[0].price,
+                Quantity: qty,
+                totalprice: getProduct[0].price * qty
+            })
+            console.log(order)
         } catch (error) {
             alert("this is update error")
         }

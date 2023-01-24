@@ -5,14 +5,14 @@ import axios from 'axios'
 import { Config } from './Config'
 import { FcRating } from 'react-icons/fc';
 import { FaTimes } from 'react-icons/fa';
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { UserContext } from './Usercontext'
 import { jsPDF } from 'jspdf'
 import { InfinitySpin, Vortex, ColorRing } from 'react-loader-spinner'
 import logo from "./logo.svg"
 
 function UserDashboard() {
-
+  const navigate = useNavigate()
   const findName = useContext(UserContext)
   const uname = findName.username
 
@@ -26,8 +26,8 @@ function UserDashboard() {
   const [touched, setTouched] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loading1, setLoading1] = useState(false)
-
   const [collapse, setCollapse] = useState(true)
+ const [producttrue, setProducttrue] = useState(false)
 
   const getProducts = async () => {
     try {
@@ -43,20 +43,24 @@ function UserDashboard() {
   const getuserproduct = async () => {
     try {
       const getUser = await axios.get(`${Config.api}/getusers`)
-      const userId = getUser.data.findIndex(user => user.username === uname)
+      const userId = getUser.data.findIndex(user => user.username === localStorage.getItem("name"))
       const uId = getUser.data[userId]._id
 
       const getoneuser = await axios.get(`${Config.api}/getoneuser/${uId}`)
-      //console.log(getoneuser.data[0].products)
-      findName.setcheckProduct(getoneuser.data[0].products)
-      setUser(getoneuser.data[0].products)
-
-      const result = getoneuser.data[0].products.reduce((i, c) => {
-        return i + c.price
-      }, 0)
-
-      //console.log(result)
-      setPriceValue(result)
+     // console.log(!getoneuser.data[0].products)
+      if(!getoneuser.data[0].products){
+        setProducttrue(false)
+      }else{
+        findName.setcheckProduct(getoneuser.data[0].products)
+        setUser(getoneuser.data[0].products)
+        console.log(getoneuser.data[0].products)
+        const result = getoneuser.data[0].products.reduce((i, c) => {
+          return i + c.price
+        }, 0)
+  
+        setPriceValue(result)
+      }
+     
     } catch (error) {
       alert("getUser error")
     }
@@ -100,7 +104,7 @@ function UserDashboard() {
 
       setLoading1(true)
       const getUser = await axios.get(`${Config.api}/getusers`)
-      const userId = getUser.data.findIndex(user => user.username === uname)
+      const userId = getUser.data.findIndex(user => user.username === localStorage.getItem("name"))
       const uId = getUser.data[userId]._id
 
       const findproductid = getUser.data[userId].products.findIndex(product => product.id === productid)
@@ -131,22 +135,24 @@ function UserDashboard() {
     setPopup(false)
   }
 
-  const search = (name) => {
-    // setProductName(name)
-    // console.log(searchProduct[0]._id)
-    console.log(name)
+  const search = () => {
+    // setProductName()
+    let prodname = product.filter(p => p.name.toLowerCase().includes(productName))
+      .map(pro => pro.name)
+    console.log(prodname[1])
   }
-  // if(!isNaN(productName)){
-  //   console.log("please enter string only")
-  // }
-  // console.log(productName.length)
-  // console.log(product.filter(p => p.name.toLowerCase().includes(productName)))
+
 
   const handleClick = () => {
     setCollapse(false)
   }
   const handleclose = () => {
     setCollapse(true)
+  }
+  const logout = () => {
+    localStorage.removeItem("inventorybill")
+    localStorage.removeItem("name")
+    navigate("/")
   }
   return (
     <>
@@ -163,26 +169,21 @@ function UserDashboard() {
               </button>
           }
 
-          <div class={`${collapse ? "collapse" : ""} navbar-collapse`} id="navbarNavDropdown">
+          <div class={`${collapse ? "collapse" : ""} navbar-collapse navcoll`} id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#home">Home</a>
+                <a class="nav-link" aria-current="page" href="#home" onClick={handleclose}>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#products">Products</a>
+                <a class="nav-link" href="#products" onClick={handleclose}>Products</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#cartitems">Cart</a>
+                <a class="nav-link" href="#cartitems" onClick={handleclose}>Cart</a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  My Account
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Email</a></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
+              <li class="nav-item">
+                <a class="nav-link" href="#"onClick={logout}>Logout</a>
               </li>
+
 
             </ul>
           </div>
@@ -231,9 +232,8 @@ function UserDashboard() {
 
       {/* Home */}
       <section id="home" className={` usersection ${popup ? "popupbox" : null}`}>
-
         <div className='text-center homediv ' >
-          <label className="homelabel">Hi, {uname}</label>
+          <label className="homelabel">Hi, {localStorage.getItem("name")}</label>
           <h3 className="homehead">Welcome to our Site</h3>
           <input type="text"
             placeholder='search products'
@@ -245,25 +245,19 @@ function UserDashboard() {
             !isNaN(productName) && touched && productName.length !== 0 ? <span style={{ color: "red" }}>Please enter string only</span> : null
           }
           {/* search */}
+          {
+            productName.length > 0 ?
+              <ul id="myUL" >
+                <li className='myli'>
+                  {
+                    product.filter(p => p.name.toLowerCase().includes(productName))
+                      .map(pro => <a className='mya' onClick={search}>{pro.name}</a>)}
+                </li>
+              </ul> : null
+          }
 
-          <div className='mx-auto' id="myUL">
-            {
-              productName.length > 0 ?
-                <ul className='mx-auto' style={{ listStyleType: "none" }}>
-                  <li className='myli'>
-                    {
-                      product.filter(p => p.name.toLowerCase().includes(productName))
-                        .map(pro => <a className='mya' onClick={search(pro.name)}>{pro.name}</a>)}
-                  </li>
-                </ul> : null
-            }
-          </div>
         </div>
-
-
       </section>
-
-
 
       {/* Products */}
       <section id="products" className={`mx-auto usersection  ${popup ? "popupbox" : null}`}>
@@ -326,7 +320,7 @@ function UserDashboard() {
                 <h1 className='text-center carthead' style={{ color: "white", fontWeight: "bold" }}>My Cart Items</h1>
               </div>
               {
-                user.length > 0 ?
+                user.length > 0 || producttrue?
 
                   <div className={`container cartcontainer my-5 ${popup ? "popupbox" : null}`}>
                     <div className='row cartrow'>

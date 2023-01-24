@@ -13,6 +13,7 @@ import Admineditproduct from './Admineditproduct';
 import Adminaddproduct from './Adminaddproduct';
 import Adminchartlist from './Adminchartlist';
 import Viewuserproduct from './Viewuserproduct';
+import AdminOrderlist from './AdminOrderlist';
 
 function App() {
   
@@ -31,7 +32,7 @@ function App() {
         <Route path="/admindashboard/userlist" element={<Adminuserlist />} />
         <Route path="/admindashboard/addproduct" element={<Adminaddproduct />} />
         <Route path="/admindashboard/chartlist" element={<Adminchartlist />} />
-
+        <Route path="/admindashboard/adminorderlist" element={<AdminOrderlist />} />
         </Route>
         
         <Route path="/admindashboard/productlist/:editproductparams" element={<Admineditproduct />} />

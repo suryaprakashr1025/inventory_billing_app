@@ -3,7 +3,7 @@ import "./AdminDashboard.css"
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom"
 import Adminuserlist from './Adminuserlist'
-import {CgLogOut} from "react-icons/cg";
+import { CgLogOut } from "react-icons/cg";
 import Adminproductlist from './Adminproductlist'
 
 function AdminDashboard() {
@@ -13,20 +13,22 @@ function AdminDashboard() {
 
   })
 
-  const logout = () =>{
+  const logout = () => {
+    localStorage.removeItem("myreact")
+    localStorage.removeItem("name")
     navigate("/")
   }
   return (
     <>
       {/* Navbar */}
- 
-        <nav class="navbar bg-dark py-2.9 adminnav">
-          <div class="container-fluid">
-            <label class="navbar-brand ">Inventory Bill App</label>
-            <button class="btn btn-outline-success dashbtn " type="submit" onClick={logout}><CgLogOut/>Logout</button>
-          </div>
-        </nav>
-        
+
+      <nav class=" adminnav">
+        <div class="container-fluid navalign">
+          <label style={{ color: "green" }}>Inventory Bill App</label>
+          <a type="submit" onClick={logout}><CgLogOut />Logout</a>
+        </div>
+      </nav>
+
       {/* Section */}
       <section id="section1">
         <label className='text-center'>Admin Panel</label>
@@ -42,7 +44,7 @@ function AdminDashboard() {
               <Link to="/admindashboard/addproduct" class="nav-link link" >AddProduct</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link link" href="#">OrderList</a>
+              <Link to="/admindashboard/adminorderlist" class="nav-link link" >OrderList</Link>
             </li>
             <li class="nav-item">
               <Link to="/admindashboard/chartlist" class="nav-link link" >ChartList</Link>

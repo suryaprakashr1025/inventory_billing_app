@@ -84,8 +84,8 @@ function Adminuserlist() {
 
     return (
         <>
-            <div className={`tableitem ${popup ? "userdisablepage":null}`} Style={{overflowX:"auto"}}>
-                <table class="table ">
+            <div className={`tableitem ${popup ? "userdisablepage":null}`}>
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">UserId</th>

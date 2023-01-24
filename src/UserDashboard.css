@@ -7,19 +7,24 @@
     top: 0px;
     z-index: 100;
 }
+.navcoll{
+    padding-left: 800px;
+}
 .close:hover {
     background-color: black;
     color: white;
 }
 
-.user li a{
+.user li a {
     color: black !important;
     font-weight: bold !important;
-} 
-.user li a:hover{
-    color:orange !important;
+}
+
+.user li a:hover {
+    color: orange !important;
     font-weight: bold !important;
-} 
+}
+
 .user span {
     font-weight: bold;
 }
@@ -27,22 +32,24 @@
 
 
 .usersection {
+
     width: 100%;
     min-height: 80vh;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
 }
 
 .homediv {
     width: 80%;
-    margin: 20px 0px;
-    padding: 198px 50px;
+    margin: 28px;
+    padding: 198px 0px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     background-color: white;
     background-image: linear-gradient(140deg, rgb(126, 132, 224) 10%, rgba(0, 0, 0, 0) 40%),
         linear-gradient(300deg, rgb(129, 224, 126) 10%, rgba(0, 0, 0, 0) 40%);
-       position: relative;
+    position: relative;
+    
 }
 
 .homediv .homelabel {
@@ -56,18 +63,17 @@
     font-weight: bold;
 }
 
-#home .homediv .homesearch::placeholder{
+#home .homediv .homesearch::placeholder {
     color: rgb(116, 108, 233);
     font-weight: bold;
 }
 
 #myUL {
-    width: 50% !important;
-    list-style-type: none !important;
-    padding:0px;
-    margin: 1px;
     position: absolute;
- 
+    left: 22%;
+    width: 53%;
+    list-style-type: none !important;
+
 }
 
 #myUL .myli .mya {
@@ -80,14 +86,15 @@
     font-weight: bold;
     color: black;
     display: block !important;
-    
+
 }
+
 /* product */
 #products {
 
     width: 80%;
     padding: 60px 50px !important;
-    margin: 28px;
+    margin-bottom: 28px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     background-image: linear-gradient(rgb(226, 124, 240), rgb(194, 127, 224));
     /* background-color: white; */
@@ -117,7 +124,7 @@
 
 #products .card {
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    
+
 }
 
 
@@ -135,7 +142,8 @@
     width: 50% !important;
 }
 
-.loadingpro, .cartload{
+.loadingpro,
+.cartload {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,7 +173,7 @@
 
 #cartitems {
     width: 80%;
-    height: fit-content;
+    min-height: 80vh;
     padding: 60px 50px !important;
     margin: 28px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
@@ -232,7 +240,7 @@
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
-    
+
 }
 
 .cartcontainer .cartimg {
@@ -255,7 +263,7 @@
     background-color: rgb(224, 147, 84);
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     padding: 95px 130px;
-    width: 600px;
+    width: 650px;
     height: 3508px;
     text-align: center;
 }
@@ -282,7 +290,7 @@
     position: sticky;
     top: 80px;
     z-index: 100;
-    
+
 }
 
 .hide {
@@ -297,89 +305,121 @@
     cursor: pointer;
 }
 
-@media screen and (min-width:300px) and (max-width:550px){
-    #home .homediv .homelabel{
-       font-size: 20px !important;
-       color: rgb(212, 201, 41);
-       font-weight: bold;
+@media screen and (min-width:300px) and (max-width:550px) {
+ 
+    #home .homediv .homelabel {
+        font-size: 18px !important;
+        color: rgb(212, 201, 41);
+        font-weight: bold;
     }
-    #home .homediv .homehead{
+
+    #home .homediv .homehead {
         font-size: 15px !important;
         color: rgb(212, 201, 41);
-       font-weight: bold;
-     }
-     #home .homediv .homesearch{
+        font-weight: bold;
+    }
+
+    #home .homediv .homesearch {
         width: 90% !important;
         padding: 4px 0px;
-     }
-     #home .homediv .homesearch::placeholder{
+    }
+
+    #home .homediv .homesearch::placeholder {
         font-size: 13px;
         text-align: center;
         color: rgb(116, 108, 233);
         font-weight: bold;
-     }
-     .usersection{
-        margin: -100px 0px;
-     }
-     .homediv{
+    }
+
+    .usersection {
+        margin-top: -190px;
+    }
+
+    .homediv {
         width: 90% !important;
         background-image: linear-gradient(140deg, rgb(126, 132, 224) 10%, rgba(0, 0, 0, 0) 40%),
-        linear-gradient(300deg, rgb(129, 224, 126) 10%, rgba(0, 0, 0, 0) 40%);
-       padding: 50px;
-     }
-     #products{
+            linear-gradient(300deg, rgb(129, 224, 126) 10%, rgba(0, 0, 0, 0) 40%);
+        padding: 50px;
+    }
+
+    #products {
         width: 90% !important;
-     }
-     #products .proh1{
-       font-size: 20px;
-     }
-     #products .card .card-body .card-title {
+    }
+
+    #products .proh1 {
+        font-size: 20px;
+    }
+
+    #products .card .card-body .card-title {
         font-size: 17px !important;
     }
-    #products .card ul li{
+
+    #products .card ul li {
         font-size: 15px !important;
     }
-    #products .card img{
+
+    #products .card img {
         width: 130px;
         height: 110px;
     }
-    #cartitems{
+
+    #cartitems {
         width: 90% !important;
         padding-left: 5px !important;
         padding-right: 5px !important;
     }
-    #cartitems .carthead{
+
+    #cartitems .carthead {
         font-size: 20px;
     }
-    #cartitems .cartqtyprice{
+
+    #cartitems .cartqtyprice {
         margin-top: 10px;
     }
-    #cartitems .bilbox{
+
+    #cartitems .bilbox {
         background-color: rgba(196, 55, 12, 0.5);
         width: 90% !important;
-        margin-left:5% !important;
+        margin-left: 5% !important;
     }
-    #cartitems  .download:hover{
+
+    #cartitems .download:hover {
         border: 1px solid white !important;
         background-color: transparent !important;
         color: white !important;
     }
-    .popupalign{
+
+    .popupalign {
         width: 80% !important;
         padding: 10px !important;
     }
-    .popupalign label{
+
+    .popupalign label {
         font-size: 13px;
     }
-    .popupalign .popupbtn{
+
+    .popupalign .popupbtn {
         padding: 3px 20px;
         margin: 5px 0px;
     }
+
     #myUL {
-        width: 66% !important;
-        top:140px;
-        left: 65px;
+        width: 50% !important;
         z-index: 10;
     }
+    #myUL .myli .mya{
+        font-size: 13px;
+    }
+}
 
+@media screen and (min-width:300px) and (max-width:991px){
+    .navcoll{
+        padding-left: 0px !important;
+    }
+}
+
+@media screen and (min-width:992px) and (max-width:1350px){
+    .navcoll{
+        padding-left: 500px !important;
+    }
 }

@@ -93,4 +93,18 @@ textarea::placeholder {
    }
 
 }
+@media screen and (min-width:300px) and (max-width:700px){
+   
+   .tableitem{
+      margin: 0px 15px !important;
+   }
 
+   .tableitem .table thead tr th{
+      border-collapse:collapse;
+      font-size: 14px !important;
+   }
+   .tableitem .table tbody tr td{
+      border-collapse:collapse;
+      font-size: 13px !important;
+   }
+}
