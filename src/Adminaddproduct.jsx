@@ -12,6 +12,7 @@ function Adminaddproduct() {
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const [celebrate, setCelebrate] = useState(false)
+    const [loading, setLoading] = useState(false)
     const confetiRef = useRef(null);
 
     const addProduct = useFormik({
@@ -70,6 +71,7 @@ function Adminaddproduct() {
         onSubmit: async (values) => {
 
             try {
+                setLoading(true)
                 const addList = await axios.post(`${Config.api}/addproduct`, values)
                 if (addList.data.message === "Product Added Successfully") {
                     setAdd(true)
@@ -83,6 +85,7 @@ function Adminaddproduct() {
                     addProduct.resetForm()
                     setMessage("Product is not added")
                 }
+                setLoading(false)
             } catch (error) {
                 alert("something went wrong")
             }
@@ -238,13 +241,13 @@ function Adminaddproduct() {
                     <div class="d-grid  col-4 mx-auto my-2">
                         <input class="btn btn-primary addbtn"
                             type="Submit"
-                            value="Submit"
+                            value={loading ? "Please Wait...":"Submit"}
                             disabled={add ? "disabled" : ""} />
                     </div>
 
                 </form>
                 {
-                    celebrate ? <Confetti numberOfPieces={150} width={width} height={height} /> : null
+                    celebrate? <Confetti numberOfPieces={120}  width={width} height={height}  className="con"/> : null
                     // https://codesandbox.io/examples/package/react-confetti
                }
 
@@ -254,7 +257,6 @@ function Adminaddproduct() {
                 add ?
                     <div className='celebrate mx-auto' ref={confetiRef}>
                         <h5>{message}</h5>
-                        <hr className='horizontal' />
                         <button class="btn btn-primary celebratebtn" onClick={done}>Done</button>
                     </div> : null
             }

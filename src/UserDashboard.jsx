@@ -5,11 +5,11 @@ import axios from 'axios'
 import { Config } from './Config'
 import { FcRating } from 'react-icons/fc';
 import { FaTimes } from 'react-icons/fa';
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import { UserContext } from './Usercontext'
 import { jsPDF } from 'jspdf'
 import { InfinitySpin, Vortex, ColorRing } from 'react-loader-spinner'
-import logo from "./logo.svg"
+
 
 function UserDashboard() {
   const navigate = useNavigate()
@@ -125,7 +125,8 @@ function UserDashboard() {
       getuserproduct()
       setPopup(false)
       setLoading1(false)
-
+      const deleteOrder = await axios.delete(`${Config.api}/deleteorder/${productid}`)
+      console.log(deleteOrder)
     } catch (error) {
       alert("delete from cart error")
     }

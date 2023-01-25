@@ -1,11 +1,14 @@
 .productbtn {
     background-color: transparent !important;
-    margin-bottom: 15px !important;
-    padding: 8px 25px;
+    margin: 10px 5px !important;
+    padding: 5px 25px;
     border: 1px solid greenyellow;
     color: greenyellow;
 }
-
+.productpopup h5{
+    margin-top: 10px;
+    font-size: 14px;
+}
 .productbtn:hover {
     border: 1px solid red;
     color: red;
@@ -28,13 +31,21 @@
     border-radius: 40px;
     background-color: black;
     color: white;
-    width: fit-content;
+    width: 30%;
     padding: 0px 30px;
     text-align: center !important;
+
 }
 
-@media only screen and (max-width:500px){
-    .productpopup{
-        margin-top: 50px;
+@media only screen and (min-width:300px) and (max-width:600px) {
+    .productpopup {
+        /* margin-top: 50px; */
+
+        width: 80% !important;
+        padding: 10px;
+        top:350px
+    }
+    .rings{
+        width:300% !important;
     }
 }

@@ -25,7 +25,10 @@ body{
     align-items: center; 
 }
 .loginform{
+
+
     padding: 40px;
+
     box-shadow: 5px 5px 5px rgba(0,0,0,.1),
                 -1px -1px 5px rgba(0,0,0,.1);
     border-radius:30px;

@@ -33,17 +33,58 @@
 }
 
 .celebrate{
-    position: relative;
+
+
+    position: absolute;
+    top: 300px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 50px !important;
-    margin-top: -350px;
     border: 3px solid black;
     border-radius: 40px;
-    background-color:black;
+    background-color: black;
     color: white;
-    width:fit-content;
-    padding: 0px 30px;
+    width: 30%;
+    padding: 10px 30px;
     text-align: center !important;
+
 }
 .celebrate h6{
     border: none;
+}
+
+.celebrate h5{
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.con{
+width:100% !important;
+height:100vh !important;
+}
+
+
+
+
+@media only screen and (min-width:300px) and (max-width:600px) {
+    .celebrate{
+        width: 80%;
+    }
+    .celebrate h5{
+        font-size: 14px;
+        margin-top: 7px;
+    }
+    .celebratebtn{
+        margin-bottom: 10px !important;
+        padding: 5px 15px !important;
+        font-size: 14px;
+        border-radius: 8px !important;
+    }
+    .con{
+        top:305px !important;
+        height:95px !important;
+        width: -20% !important;
+        }
 }

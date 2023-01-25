@@ -4,7 +4,7 @@ import { useFormik } from "formik"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Config } from "./Config"
-import { useState,useContext } from 'react'
+import { useState, useContext } from 'react'
 import { UserContext } from './Usercontext'
 
 function Login() {
@@ -43,17 +43,15 @@ function Login() {
         onSubmit: async (values) => {
             try {
                 const user = await axios.post(check ? `${Config.api}/admin/login` : `${Config.api}/user/login`, values)
-               
+
                 localStorage.setItem("inventorybill", user.data.token)
-                
+
                 if (user.data.message === "success") {
                     setDialog(true)
                     login.resetForm()
                     setResponse(user.data.message)
                     setNav(true)
-                    // console.log(values.username)
-                    // findName.setUsername(values.username)
-                    localStorage.setItem("name",values.username)
+                    localStorage.setItem("name", values.username)
                 } else {
                     setDialog(true)
                     setResponse(user.data.message)
@@ -83,11 +81,15 @@ function Login() {
     return (
         <>
             <div className='container login'>
+
+
                 <div className="col-lg-4 col-md-6 col-12">
+                
+
                     <form onSubmit={login.handleSubmit} className={`loginform ${dialog ? "opacity-form" : ""}`}>
 
                         <div class="mb-3 text-center">
-                            <h5 class="py-lg-1 py-3">Login Form</h5>
+                            <h5 class="py-lg-1 py-3" style={{ fontWeight: "bold", fontSize: "21px" }}>Login Form</h5>
                         </div>
 
                         <div class="mb-3">
@@ -161,6 +163,7 @@ function Login() {
 
                     </form >
                 </div>
+
             </div >
             {
                 dialog ? <div className='dialog'>

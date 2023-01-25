@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Config } from './Config'
 import { Link } from "react-router-dom"
 import { UserContext } from './Usercontext'
+import { Rings } from 'react-loader-spinner'
 import "./Adminproductlist.css"
 
 
@@ -14,15 +15,18 @@ function Adminproductlist() {
   const [confirm, setConfirm] = useState(false)
   const [message, setMessage] = useState('')
   const [paramsid, setParamsId] = useState("")
+  const [loading, setLoading] = useState(false)
   const perPage = 5
 
   const getData = async () => {
     try {
+      setLoading(true)
       const start = perPage * 0;
       const end = start + perPage;
       const getData = await axios.get(`${Config.api}/getproducts`)
       setProduct(getData.data)
       setPage(getData.data.slice(start, end))
+      setLoading(false)
     } catch (error) {
       alert("something went wrong")
     }
@@ -73,17 +77,17 @@ function Adminproductlist() {
     setParamsId(id)
   }
 
-  const no = () =>{
+  const no = () => {
     setConfirm(false)
   }
-  
+
   return (
     <>
 
 
-      <div className={`tableitem ${confirm ? "disablepage":null}`} >
+      <div className={`tableitem ${confirm ? "disablepage" : null}`} >
 
-        <table class= "table">
+        <table class="table">
           <thead>
             <tr>
               <th scope="col">ProductId</th>
@@ -96,7 +100,16 @@ function Adminproductlist() {
           </thead>
           <tbody>
 
-            {
+            {loading ? <div class="d-flex justify-content-center rings" style={{ width: "465%" }}><Rings
+              height="80"
+              width="80"
+              color="black"
+              radius="6"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="rings-loading"
+            /> </div> :
               page.map(productlist => {
                 return (
                   <tr>
@@ -121,7 +134,7 @@ function Adminproductlist() {
       </div>
 
       {product.length > 5 ?
-        <nav aria-label="Page navigation example" className={`navpage mx-auto ${confirm ? "disablepage":null}`}>
+        <nav aria-label="Page navigation example" className={`navpage mx-auto ${confirm ? "disablepage" : null}`}>
           <div className='paginationdiv'>
             <ul class="nav justify-content-center pageul my-3">
               <li class="nav-item">
@@ -150,7 +163,6 @@ function Adminproductlist() {
         confirm ?
           <div className='productpopup mx-auto '>
             <h5>{message}</h5>
-            <hr className='horizontal' />
             <button class="btn btn-primary productbtn mx-3" onClick={() => deleteItem(paramsid)}>Yes</button>
             <button class="btn btn-primary productbtn mx-3" onClick={() => no()}>No</button>
           </div> : null

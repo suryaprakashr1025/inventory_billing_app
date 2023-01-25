@@ -19,6 +19,7 @@ function Adminchartlist() {
   const [order, setorder] = useState()
   const [productqty, setProductqty] = useState()
   const [orderqty, setorderqty] = useState()
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,17 +28,18 @@ function Adminchartlist() {
 
         const products = await axios.get(`${Config.api}/getproducts`)
         setProduct(products.data.length)
-        const proqty= products.data.reduce((initialprod, prodvalue)=>{
-          return initialprod + prodvalue.countInStock
-        },0)
+
+        const proqty = products.data.reduce((initialprod, prodvalue) => {
+          return initialprod + parseInt(prodvalue.countInStock)
+        }, 0)
         //console.log(proqty)
         setProductqty(proqty)
 
         const orders = await axios.get(`${Config.api}/orderlist`)
         setorder(orders.data.length)
-        const orqty= orders.data.reduce((initialorder, ordervalue)=>{
+        const orqty = orders.data.reduce((initialorder, ordervalue) => {
           return initialorder + parseInt(ordervalue.Quantity)
-        },0)
+        }, 0)
         //console.log(orqty)
         setorderqty(orqty)
       } catch (error) {
@@ -46,36 +48,36 @@ function Adminchartlist() {
     }
     fetchData()
   }, [])
+
   const data = {
     labels: ["Users", "Products", "Orders"],
     datasets: [{
       label: "List",
       data: [`${user}`, `${product}`, `${order}`],
-      backgroundColor: 'lightblue',
-      borderColor: "black",
-      borderWidth: 1
+      backgroundColor: '#6BA3EB',
+      // borderColor: "red",
+      // borderWidth: 1
     },
     {
       label: "qty",
       data: [, `${productqty}`, `${orderqty}`],
-      backgroundColor: 'lightgreen',
-      borderColor: "black",
-      borderWidth: 1
+      backgroundColor: '#78B831',
+      // borderColor: "black",
+      // borderWidth: 1
     }
-  ]
+    ]
   }
+
   const options = {
     maintainAspectRatio: false
   }
+
   return (
     <div className='text-center chart mx-auto my-12'>
-
       <Bar
         data={data}
         options={options}
       ></Bar>
-
-
     </div>
   )
 }

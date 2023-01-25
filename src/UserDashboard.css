@@ -332,11 +332,12 @@
     }
 
     .usersection {
-        margin-top: -190px;
+       
+        margin-top: -100px;
     }
 
     .homediv {
-        width: 90% !important;
+        width: 100% !important;
         background-image: linear-gradient(140deg, rgb(126, 132, 224) 10%, rgba(0, 0, 0, 0) 40%),
             linear-gradient(300deg, rgb(129, 224, 126) 10%, rgba(0, 0, 0, 0) 40%);
         padding: 50px;
