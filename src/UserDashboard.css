@@ -5,7 +5,7 @@
     box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0px;
-    z-index: 100;
+    z-index: 150;
 }
 .navcoll{
     padding-left: 800px;
@@ -73,7 +73,7 @@
     left: 22%;
     width: 53%;
     list-style-type: none !important;
-
+    z-index: 100;
 }
 
 #myUL .myli .mya {
@@ -118,7 +118,7 @@
 }
 
 #products .products {
-    margin: 50px 0px;
+    margin: 35px 0px;
 
 }
 
@@ -345,6 +345,10 @@
 
     #products {
         width: 90% !important;
+    }
+    #products .products {
+        margin: 20px 0px;
+    
     }
 
     #products .proh1 {

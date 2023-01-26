@@ -59,8 +59,8 @@ function Adminchartlist() {
       // borderWidth: 1
     },
     {
-      label: "qty",
-      data: [, `${productqty}`, `${orderqty}`],
+      label: "Quantity",
+      data: ["", `${productqty}`, `${orderqty}`],
       backgroundColor: '#78B831',
       // borderColor: "black",
       // borderWidth: 1

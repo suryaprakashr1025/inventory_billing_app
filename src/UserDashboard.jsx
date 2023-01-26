@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Config } from './Config'
 import { FcRating } from 'react-icons/fc';
 import { FaTimes } from 'react-icons/fa';
-import { Link,useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { UserContext } from './Usercontext'
 import { jsPDF } from 'jspdf'
 import { InfinitySpin, Vortex, ColorRing } from 'react-loader-spinner'
@@ -14,7 +14,6 @@ import { InfinitySpin, Vortex, ColorRing } from 'react-loader-spinner'
 function UserDashboard() {
   const navigate = useNavigate()
   const findName = useContext(UserContext)
-  const uname = findName.username
 
   const [product, setProduct] = useState([])
   const [user, setUser] = useState([])
@@ -27,8 +26,9 @@ function UserDashboard() {
   const [loading, setLoading] = useState(false)
   const [loading1, setLoading1] = useState(false)
   const [collapse, setCollapse] = useState(true)
- const [producttrue, setProducttrue] = useState(false)
-
+  const [producttrue, setProducttrue] = useState(false)
+  const [orderid, setOrderid] = useState("")
+  const [list ,setList] = useState(false)
   const getProducts = async () => {
     try {
       setLoading(true)
@@ -47,20 +47,20 @@ function UserDashboard() {
       const uId = getUser.data[userId]._id
 
       const getoneuser = await axios.get(`${Config.api}/getoneuser/${uId}`)
-     // console.log(!getoneuser.data[0].products)
-      if(!getoneuser.data[0].products){
+      // console.log(!getoneuser.data[0].products)
+      if (!getoneuser.data[0].products) {
         setProducttrue(false)
-      }else{
+      } else {
         findName.setcheckProduct(getoneuser.data[0].products)
         setUser(getoneuser.data[0].products)
-        console.log(getoneuser.data[0].products)
+        // console.log(getoneuser.data[0].products)
         const result = getoneuser.data[0].products.reduce((i, c) => {
           return i + c.price
         }, 0)
-  
+
         setPriceValue(result)
       }
-     
+
     } catch (error) {
       alert("getUser error")
     }
@@ -92,10 +92,11 @@ function UserDashboard() {
     getuserproduct()
   }, [])
 
-  const remove = (proid) => {
+  const remove = (proid, orderid) => {
     setLoading1(true)
     setPopup(true)
     setProductid(proid)
+    setOrderid(orderid)
     setLoading1(false)
   }
 
@@ -122,11 +123,12 @@ function UserDashboard() {
 
       const removeCart = await axios.put(`${Config.api}/userdeleteproduct/${uId}`, { id: productid })
 
+      const deleteOrder = await axios.delete(`${Config.api}/deleteorder/${orderid}`)
+
       getuserproduct()
       setPopup(false)
       setLoading1(false)
-      const deleteOrder = await axios.delete(`${Config.api}/deleteorder/${productid}`)
-      console.log(deleteOrder)
+
     } catch (error) {
       alert("delete from cart error")
     }
@@ -136,11 +138,14 @@ function UserDashboard() {
     setPopup(false)
   }
 
-  const search = () => {
-    // setProductName()
-    let prodname = product.filter(p => p.name.toLowerCase().includes(productName))
-      .map(pro => pro.name)
-    console.log(prodname[1])
+  const search = (e) => {
+
+    setProductName(e.toLowerCase())
+    console.log(e.length)
+    if(e.length === productName.length){
+      setList(false)
+      console.log(list)
+    }
   }
 
 
@@ -182,7 +187,7 @@ function UserDashboard() {
                 <a class="nav-link" href="#cartitems" onClick={handleclose}>Cart</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"onClick={logout}>Logout</a>
+                <a class="nav-link" href="#" onClick={logout}>Logout</a>
               </li>
 
 
@@ -247,14 +252,21 @@ function UserDashboard() {
           }
           {/* search */}
           {
-            productName.length > 0 ?
+            productName.length > 0?
+
               <ul id="myUL" >
-                <li className='myli'>
+                <li className='myli' value={productName} onChange={(e) => setProductName(e.target.value.toLowerCase())}>
+
                   {
                     product.filter(p => p.name.toLowerCase().includes(productName))
-                      .map(pro => <a className='mya' onClick={search}>{pro.name}</a>)}
+                      .map(pro =>
+                        <a className='mya' onClick={() => search(pro.name)}>{pro.name}</a>
+                      )
+                    }
+
                 </li>
-              </ul> : null
+              </ul>
+              : null
           }
 
         </div>
@@ -265,7 +277,7 @@ function UserDashboard() {
         {
           loading ? <InfinitySpin
             width='200'
-            color="white"
+            color="#c4aead "
           /> :
             <div className='container'>
               <h1 className={`${loading ? "loadingpro" : "proh1"} mx-auto`}>All Products</h1>
@@ -283,7 +295,7 @@ function UserDashboard() {
 
                           <ul class="list-group list-group-flush">
                             <li class="list-group-item">Rating: {prod.rating}<FcRating /></li>
-                            <li class="list-group-item">Price: {prod.price}</li>
+                            <li class="list-group-item">Price: Rs.{prod.price}</li>
                           </ul>
 
                           <div className='cardbutton mx-auto py-3'>
@@ -321,7 +333,7 @@ function UserDashboard() {
                 <h1 className='text-center carthead' style={{ color: "white", fontWeight: "bold" }}>My Cart Items</h1>
               </div>
               {
-                user.length > 0 || producttrue?
+                user.length > 0 || producttrue ?
 
                   <div className={`container cartcontainer my-5 ${popup ? "popupbox" : null}`}>
                     <div className='row cartrow'>
@@ -345,7 +357,7 @@ function UserDashboard() {
                                   <h6 style={{ fontWeight: "bold" }}>Rs.{userproduct.price}</h6>
                                 </div>
                                 <div className='col-lg-12 text-center my-3'>
-                                  <button className='btn btn-outline-dark remove' onClick={() => remove(userproduct.id)}
+                                  <button className='btn btn-outline-dark remove' onClick={() => remove(userproduct.id, userproduct.orderId)}
                                     style={{ width: "fit-content", fontWeight: "bold" }}>Remove</button>
                                 </div>
                               </div>
@@ -381,7 +393,7 @@ function UserDashboard() {
                                 </div>
 
                                 <div className='col-lg-6 col-md-6 col-6'>
-                                  <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>Rs.{prodnameprice.price}</h6>
+                                  <h6 className='text-center' style={{ fontSize: "12px", fontWeight: "bold" }}>Rs. {prodnameprice.price}</h6>
                                 </div>
 
                               </div>
@@ -396,7 +408,7 @@ function UserDashboard() {
                           </div>
 
                           <div className='col-lg-6 col-md-6 col-6'>
-                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Rs.{priceValue}</h6>
+                            <h6 className='text-center' style={{ color: "white", fontWeight: "bold" }}>Rs. {priceValue}</h6>
                           </div>
 
                         </div>
@@ -422,7 +434,7 @@ function UserDashboard() {
       {/* download receipt */}
       <div className={`container ${table ? "hide" : null}`} id="download">
         <h1 className='text-center' style={{ fontSize: "20px", fontWeight: "bold", color: "rgb(10, 50, 100)" }}>Inventory Billing App</h1>
-        <h4 className='text-center' style={{ fontSize: "16px", fontWeight: "bold", color: "rgb(10, 50, 100)" }}>Hi {uname} This is your price details</h4>
+        <h4 className='text-center' style={{ fontSize: "16px", fontWeight: "bold", color: "rgb(10, 50, 100)" }}>Hi {localStorage.getItem("name")}, this is your price details</h4>
         <table class="table table-bordered border-dark">
           <thead>
             <tr style={{ color: "white", fontSize: "13px" }}>

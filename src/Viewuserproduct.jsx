@@ -10,7 +10,7 @@ import { ThreeDots, Rings } from 'react-loader-spinner'
 function Viewuserproduct() {
 
     const findName = useContext(UserContext)
-    const uname = findName.username
+  
     const checkproduct = [...findName.checkProduct]
 
     const [getProduct, setGetProduct] = useState([])
@@ -21,15 +21,13 @@ function Viewuserproduct() {
     const [celebrate, setCelebrate] = useState(false)
     const [loading, setLoading] = useState(false)
     const [loading1, setLoading1] = useState(false)
+
     const navigate = useNavigate()
     const { getproduct } = useParams()
     const confetiRef = useRef(null)
 
-    const checkpro = checkproduct.some(prodid => {
-        return prodid.id === getproduct
-    })
-    // console.log(checkpro)
 
+ 
     const getData = async () => {
         try {
             setLoading(true)
@@ -43,6 +41,10 @@ function Viewuserproduct() {
         }
     }
 
+    const checkpro = checkproduct.some(prodid => {
+        return prodid.id === getproduct
+    })
+    
     useEffect(() => {
         getData()
     }, [])
@@ -59,29 +61,15 @@ function Viewuserproduct() {
         try {
             setLoading1(true)
             const stack = options - qty
-            const change = stack.toString()
-            // console.log(change)
-            // console.log(typeof change)
+        
             const changeqty = await axios.put(`${Config.api}/changequantity/${getproduct}`, {
                 countInStock: stack
             })
+
             const getUser = await axios.get(`${Config.api}/getusers`)
             const userId = getUser.data.findIndex(user => user.username === localStorage.getItem("name"))
             const uId = getUser.data[userId]._id
 
-            const reviewsList = await axios.put(`${Config.api}/usergetproduct/${uId}`, {
-                id: getProduct[0]._id,
-                name: getProduct[0].name,
-                image: getProduct[0].image,
-                price: getProduct[0].price * qty,
-                Quantity: qty
-            })
-
-
-            setBtnDisabled(true)
-            setLoading1(false)
-            setCelebrate(true)
-            
             const order = await axios.post(`${Config.api}/orderproduct`, {
                 username: localStorage.getItem("name"),
                 productname: getProduct[0].name,
@@ -89,7 +77,23 @@ function Viewuserproduct() {
                 Quantity: qty,
                 totalprice: getProduct[0].price * qty
             })
-            console.log(order)
+
+            const reviewsList = await axios.put(`${Config.api}/usergetproduct/${uId}`, {
+                id: getProduct[0]._id,
+                name: getProduct[0].name,
+                image: getProduct[0].image,
+                price: getProduct[0].price * qty,
+                Quantity: qty,
+                orderId: order.data.insertedId
+            })
+
+
+            setBtnDisabled(true)
+            setLoading1(false)
+            setCelebrate(true)
+
+
+
         } catch (error) {
             alert("this is update error")
         }
@@ -137,7 +141,7 @@ function Viewuserproduct() {
                                     {
                                         getProduct.map(prod => {
                                             return (
-                                                <img src={prod.image} className="img-fluid mx-auto" />
+                                                <img src={prod.image} className="img-fluid mx-auto" alt={prod.name}/>
                                             )
                                         })
                                     }
