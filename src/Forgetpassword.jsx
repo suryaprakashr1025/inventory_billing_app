@@ -4,6 +4,8 @@ import React from 'react'
 import { Config } from './Config'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import "./Forgetpassword.css"
+
 function Forgetpassword() {
     const navigate = useNavigate()
     const [check, setCheck] = useState(false)
@@ -34,7 +36,8 @@ function Forgetpassword() {
         },
         onSubmit: async (values) => {
             try {
-                const forgetpassword = await axios.post(check ? `${Config.api}/admin/forgetpassword` : `${Config.api}/user/forgetpassword`, values)
+                // const forgetpassword = await axios.post(check ? `${Config.api}/admin/forgetpassword` : `${Config.api}/user/forgetpassword`, values)
+                const forgetpassword = await axios.post(`${Config.api}/user/forgetpassword`, values)
                 console.log(forgetpassword)
 
                 if (forgetpassword.data.message === "mail sent successfully") {
@@ -64,15 +67,17 @@ function Forgetpassword() {
     }
 
     return (
-        <div className='container'>
-            <form onSubmit={forget.handleSubmit} className={dialog ? "opacity-form" : ""}>
-
+        <div className='container forget'>
+             <div className="col-lg-4 col-md-6 col-12 mx-auto">
+            <form onSubmit={forget.handleSubmit} className={`forgetform ${dialog ? "opacity-form" : ""}`}>
+            <div class="mb-3 text-center">
+                            <h5 class="py-lg-1 py-3" style={{ fontWeight: "bold", fontSize: "21px" }}>Forget Password</h5>
+                        </div>
                 <div className='row'>
-                    <div className='col-lg-6 mt-3'>
+                    <div className='mt-3'>
                         <label>Username</label>
                         <input name="username"
                             type="text"
-                            placeholder="Enter your username"
                             value={forget.values.username}
                             onChange={forget.handleChange}
                             onBlur={forget.handleBlur}
@@ -88,11 +93,10 @@ function Forgetpassword() {
                 </div>
 
                 <div className='row'>
-                    <div className='col-lg-6 mt-3'>
+                    <div className='mt-3'>
                         <label>Email</label>
                         <input name="email"
                             type="text"
-                            placeholder='Enter your email'
                             value={forget.values.email}
                             onChange={forget.handleChange}
                             onBlur={forget.handleBlur}
@@ -108,7 +112,7 @@ function Forgetpassword() {
                 </div>
 
                 <div className='row'>
-                    <div className='col-lg-12 mt-3'>
+                    {/* <div className='mt-3'>
                         <input className={`form-check-input ${dialog ? "form" : ""}`}
                             type="checkbox" value=""
                             id="flexCheckDefault"
@@ -116,9 +120,9 @@ function Forgetpassword() {
                             onChange={checkbox}
                             disabled={dialog ? "disabled" : ""} />
                         <span><label>If you are admin?</label></span>
-                    </div>
-                    <div className='col-lg-12 mt-3'>
-                        <input className={`btn btn-primary ${dialog ? "form" : ""}`}
+                    </div> */}
+                    <div className='col-lg-12 mt-3' style={{marginTop:"20px",display:"flex",justifyContent:"center"}}>
+                        <input className={`btn btn-primary ${dialog ? "form" : ""} forgetbtn`}
                         disabled={dialog ? "disabled" : ""}
                         type={"submit"}
                         value="submit" />
@@ -136,7 +140,7 @@ function Forgetpassword() {
             {/* <div>
                 correct or incorrect:{check?"true":"false"}
             </div> */}
-
+</div>
         </div>
     )
 }

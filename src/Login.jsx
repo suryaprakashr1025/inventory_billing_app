@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Config } from "./Config"
 import { useState, useContext } from 'react'
 import { UserContext } from './Usercontext'
+import { Link } from "react-router-dom"
 
 function Login() {
     const navigate = useNavigate()
@@ -83,8 +84,8 @@ function Login() {
             <div className='container login'>
 
 
-                <div className="col-lg-4 col-md-6 col-12">
-                
+                <div className="col-lg-4 col-md-6 col-12 mx-auto">
+
 
                     <form onSubmit={login.handleSubmit} className={`loginform ${dialog ? "opacity-form" : ""}`}>
 
@@ -130,7 +131,7 @@ function Login() {
                             }
                         </div>
 
-                        <div className='mb-3 text-center form-floating'>
+                        <div className='text-center form-floating'>
                             <input class={`form-check-input ${dialog ? "form" : ""}`}
                                 type="checkbox"
                                 checked={check}
@@ -142,26 +143,52 @@ function Login() {
                             </span>
                         </div>
 
-                        <div className='class="mb-3 col-lg-6 col-md-6 col-12 py-lg-2 py-3 form-floating'>
-                            <input className={`btn btn-primary ${dialog ? "form" : ""}`}
+                        <div className='col-lg-12 text-center form-floating mt-2 mb-2 link'>
+                            <div className='col-lg-4 text-center form-floating mt-3 '>
+                                <Link to="/register" className={`link1 ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>R</Link>
+                                <label className='r'>Register Here</label>                              
+                            </div>
+
+                            <div className='col-lg-4 form-floating mt-3'>
+                                <Link to="/changepassword" className={`link2 ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>C</Link>
+                                <label className='c'>Change Password</label>                            
+                            </div>
+
+                            <div className='col-lg-4 form-floating mt-3'>
+                                <Link to="/forgetpassword" className={`link3 ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>F</Link>
+                                <label className='f'>Forget Password</label>
+                            </div>
+                        </div>
+
+                        <div className="col-lg-12" style={{marginTop:"20px",display:"flex",justifyContent:"center"}}>
+                        {/* mb-3 col-lg-6 col-md-6 col-12 py-lg-2 py-3 form-floating mx-auto my-1 */}
+                            <input className={`btn btn-primary ${dialog ? "form" : ""} col-lg-12 logbtn`}
                                 disabled={dialog ? "disabled" : ""}
                                 type={"submit"}
-                                value="submit" />
+                                value="Login" />
                         </div>
+                        
+                        <div className='col-lg-12 text-center form-floating mt-2 mb-2 linkres'>
+                            <div className='col-lg-4 text-center form-floating mt-3 '>
+                                <Link to="/register" className={`linkreg ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>Register</Link>
+                            </div>
 
-                        {/* <div className='col-lg-12 text-center form-floating mt-3 link'>
-                            <Link to="/register" className={dialog ? "disabled" : ""} onClick={dialog ? (event) => event.preventDefault() : ""}>Register</Link>
+                            <div className='col-lg-4 form-floating mt-3'>
+                                <Link to="/changepassword" className={`linkchange ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>Change Password</Link>
+                            </div>
+
+                            <div className='col-lg-4 form-floating mt-3'>
+                                <Link to="/forgetpassword" className={`linkfor ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>Forget Password</Link>
+                            </div>
                         </div>
-
-                        <div className='col-lg-6 form-floating mt-3 link'>
-                            <Link to="/changepassword" className={dialog ? "disabled" : ""} onClick={dialog ? (event) => event.preventDefault() : ""}>ChangePassword</Link>
-                        </div>
-
-                        <div className='col-lg-6 form-floating mt-3 link'>
-                            <Link to="/forgetpassword" className={dialog ? "disabled" : ""} onClick={dialog ? (event) => event.preventDefault() : ""}>ForgetPassword</Link>
-                        </div> */}
-
                     </form >
+                    <div className='adminhover'>
+                        <h6 style={{color:"black"}}>Admin</h6>
+                        <hr/>
+                        <h6 style={{color:"white"}}>Username:  suryaprakash</h6>
+                        <h6 style={{color:"white"}}>Password: surya123</h6>
+                        <h6>Please Click the checkbox</h6>
+                    </div>
                 </div>
 
             </div >

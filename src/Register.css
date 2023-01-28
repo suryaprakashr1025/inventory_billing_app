@@ -1,17 +1,164 @@
-.dialog{
-    border: 1px solid black;
-    border-radius: 8px;
-    width:200px;
-    margin:50px;
+.register {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
-.dialog p{
-    padding: 10px 15px;
+
+.regpop {
+    position: absolute;
+    top: 200px;
+    z-index: 200;
+    display: flex !important;
+    justify-content: center !important;
 }
-.dialog input{
-   margin-left:  110px;
-   margin-bottom: 10px;
-   padding: 5px 20px;
+
+.regcel {
+    display: flex !important;
+    justify-content: center !important;
 }
-input[class="form"]:disabled{ 
+.cel1{
+    display: none;
+}
+.dialog {
+
+    padding: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, .1),
+        -1px -1px 5px rgba(0, 0, 0, .1);
+    border-radius: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #d1782e;
+    color: white;
+    font-weight: bold;
+
+}
+
+.dialog p {
+    align-items: center !important;
+}
+
+/* .dialog input {
+    width: 30%;
+
+} */
+
+input[class="form"]:disabled {
     background-color: rgb(192, 196, 201) !important;
+}
+
+.dialogbtn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.dialogbtn:hover {
+    background-color: transparent !important;
+    border: 1px solid rgb(22, 20, 20);
+    color: rgb(32, 29, 29);
+    font-weight: bold;
+}
+
+.dialogbtn:focus {
+    background-color: transparent !important;
+    border: 1px solid rgb(22, 20, 20);
+    color: rgb(32, 29, 29);
+    font-weight: bold;
+}
+
+
+.registerform {
+    padding: 20px 45px;
+    background-image: linear-gradient(to right, #20BF55, #6ae4ab);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .1),
+        -1px -1px 5px rgba(0, 0, 0, .1);
+    border-radius: 30px;
+    color: white;
+
+}
+
+.regbtn {
+    border: 1px solid rgb(68, 45, 45) !important;
+    background-color: transparent;
+    color: black;
+    font-weight: bold;
+
+}
+
+.regbtn:hover {
+    background-color: transparent !important;
+    border: 1px solid white !important;
+
+}
+
+.regbtn:focus {
+    background-color: transparent !important;
+
+}
+
+@media screen and (min-width:300px) and (max-width:600px) {
+
+    .register {
+        background-image: linear-gradient(to right, #20BF55, #6ae4ab);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+    }
+
+    .registerform {
+        padding: 25px 40px;
+        box-shadow: none;
+        border-radius: 0px;
+        color: white;
+
+    }
+
+
+    .regbtn {
+        width: 100%;
+        border: 1px solid rgb(12, 11, 11) !important;
+    }
+
+    .regpop {
+        width: 90%;
+        font-size: 12px;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center;
+
+    }
+
+    .dialogbtn {
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+
+    .regcel {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+     .cel {
+        width: 100%;
+        height: 30vh;
+        z-index: 500;
+        font-size: 8px;
+    }
+
+    /* .cel1 {
+        display: block;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        width: 50%;
+    }  */
 }

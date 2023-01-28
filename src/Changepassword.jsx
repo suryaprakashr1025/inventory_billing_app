@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useState } from "react"
 import { Config } from './Config'
 import Register from './Register'
+import "./Changepassword.css"
+
 function ChangePassword() {
   const navigate = useNavigate()
   const [check, setCheck] = useState(false)
@@ -45,19 +47,20 @@ function ChangePassword() {
     },
     onSubmit: async (values) => {
       try {
-        const change = await axios.put(check ? `${Config.api}/admin/${changePassword.values.username}` : `${Config.api}/user/${changePassword.values.username}`, values)
+        // const change = await axios.put(check ? `${Config.api}/admin/${changePassword.values.username}` : `${Config.api}/user/${changePassword.values.username}`, values)
+        const change = await axios.put(`${Config.api}/user/${changePassword.values.username}`, values)
         console.log(change)
-        if(change.data.message === "password changed successfully"){
+        if (change.data.message === "password changed successfully") {
           setDialog(true)
           setResponse(change.data.message)
           changePassword.resetForm()
           setNav(true)
-        }else{
+        } else {
           setDialog(true)
           setResponse(change.data.message)
           changePassword.resetForm()
         }
-        
+
       } catch (error) {
         alert("something went wrong")
       }
@@ -74,15 +77,18 @@ function ChangePassword() {
   }
 
   return (
-    <div className='container'>
-      <form onSubmit={changePassword.handleSubmit} className={dialog?"opacity-form":""}>
+    <div className='container change'>
+       <div className="col-lg-4 col-md-6 col-12 mx-auto">
+      <form onSubmit={changePassword.handleSubmit} className={`changeform ${dialog ? "opacity-form" : ""}`}>
+        <div class="mb-3 text-center">
+          <h5 class="py-lg-1 py-3" style={{ fontWeight: "bold", fontSize: "21px" }}>ChangePassword</h5>
+        </div>
         <div className='row'>
-          <div className='col-lg-6 mt-3'>
+          <div className='mt-3'>
             <label>Username</label>
             <input
               name="username"
               type="text"
-              placeholder='Username'
               value={changePassword.values.username}
               onChange={changePassword.handleChange}
               onBlur={changePassword.handleBlur}
@@ -92,37 +98,35 @@ function ChangePassword() {
               }
               disabled={dialog ? "disabled" : ""} />
             {
-              changePassword.errors.username ? <span style={{ color: "red" }}>{changePassword.errors.username}</span> : null
+              changePassword.errors.username ? <span style={{  color: "orange",fontSize:"12px" }}>{changePassword.errors.username}</span> : null
             }
           </div>
         </div>
         <div className='row'>
-          <div className='col-lg-6 mt-3'>
+          <div className='mt-3'>
             <label>Current Password</label>
             <input
               name="currentPassword"
               type="password"
-              placeholder='Current Password'
               value={changePassword.values.currentPassword}
               onChange={changePassword.handleChange}
               onBlur={changePassword.handleBlur}
               className={`form-control ${dialog ? "form" : ""}
-              ${changePassword.errors.currentPassword ? "error-box" : ""}
+              ${changePassword.errors.currentPassword ? "errors-box" : ""}
               ${changePassword.touched.currentPassword && !changePassword.errors.currentPassword ? "success-box" : ""}`
               }
               disabled={dialog ? "disabled" : ""} />
             {
-              changePassword.errors.currentPassword ? <span style={{ color: "red" }}>{changePassword.errors.currentPassword}</span> : null
+              changePassword.errors.currentPassword ? <span style={{ color: "orange",fontSize:"12px" }}>{changePassword.errors.currentPassword}</span> : null
             }
           </div>
         </div>
         <div className='row'>
-          <div className='col-lg-6 mt-3'>
+          <div className='mt-3'>
             <label>New Password</label>
             <input
               name="password"
               type="password"
-              placeholder='New Password'
               value={changePassword.values.password}
               onChange={changePassword.handleChange}
               onBlur={changePassword.handleBlur}
@@ -132,12 +136,12 @@ function ChangePassword() {
               }
               disabled={dialog ? "disabled" : ""} />
             {
-              changePassword.errors.password ? <span style={{ color: "red" }}>{changePassword.errors.password}</span> : null
+              changePassword.errors.password ? <span style={{  color: "orange",fontSize:"12px"}}>{changePassword.errors.password}</span> : null
             }
           </div>
         </div>
         <div className='row'>
-          <div className='col-lg-12 mt-3'>
+          {/* <div className='col-lg-12 mt-3'>
             <input class={`form-check-input ${dialog ? "form" : ""}`}
               disabled={dialog ? "disabled" : ""}
               type="checkbox"
@@ -146,11 +150,11 @@ function ChangePassword() {
               value=""
               id="flexCheckDefault" />
             <span><label> If your admin?</label></span>
-          </div>
-          <div className='col-lg-12 mt-3'>
+          </div> */}
+          <div className='col-lg-12 mt-3 'style={{marginTop:"20px",display:"flex",justifyContent:"center"}}>
             <input type="submit"
-              value="Submit"
-              className={`btn btn-primary ${dialog ? "form" : ""}`}
+              value="Change Password"
+              className={`btn btn-primary ${dialog ? "form" : ""} changebtn`}
               disabled={dialog ? "disabled" : ""} />
           </div>
         </div>
@@ -161,6 +165,7 @@ function ChangePassword() {
           <input type="submit" value="Ok" className='btn btn-primary' onClick={navi} />
         </div> : null
       }
+      </div>
     </div>
   )
 }
