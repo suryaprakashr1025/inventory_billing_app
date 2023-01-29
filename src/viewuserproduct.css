@@ -10,12 +10,13 @@
 .box {
     background-image: linear-gradient(to right, #FF4066, #FFF16A);
     padding-bottom: 48px;
-    height: fit-content;
+    height: 100vh;
 }
 
 .viewproduct {
     width: 100%;
     overflow: hidden;
+    overflow-y: scroll;
     height: 100vh;
 }
 
@@ -266,4 +267,13 @@
         font-size: 17px !important;
     }
 }
+
+/* @media screen and (min-height:800px) and (max-height:900px){
+    .box {
+       
+        min-height: 100vh;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+} */
 
