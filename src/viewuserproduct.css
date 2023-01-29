@@ -16,7 +16,7 @@
 .viewproduct {
     width: 100%;
     overflow: hidden;
-    height: fit-content;
+    height: 100vh;
 }
 
 .viewproduct .viewimgbtn {

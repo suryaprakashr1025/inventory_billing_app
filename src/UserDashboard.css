@@ -428,3 +428,21 @@
         padding-left: 500px !important;
     }
 }
+
+@media screen and (min-height:850px) and (max-height:950px) {
+
+    .usersection {
+       
+        margin-top: -250px;
+    }
+
+}
+
+@media screen and (min-height:650px) and (max-height:750px) {
+
+    .usersection {
+       
+        margin-top: -160px;
+    }
+
+}
