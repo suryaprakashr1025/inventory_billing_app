@@ -7,7 +7,7 @@ import { Config } from "./Config"
 import { useState, useContext } from 'react'
 import { UserContext } from './Usercontext'
 import { Link } from "react-router-dom"
-
+import { ThreeDots } from "react-loader-spinner"
 function Login() {
     const navigate = useNavigate()
     const findName = useContext(UserContext)
@@ -15,6 +15,7 @@ function Login() {
     const [response, setResponse] = useState("")
     const [dialog, setDialog] = useState(false)
     const [nav, setNav] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const login = useFormik({
         initialValues: {
@@ -26,38 +27,45 @@ function Login() {
             const errors = {}
 
             if (!values.username) {
-                errors.username = "please enter the username"
+                errors.username = "Please enter the username"
             }
             else if (values.username.length <= 3 || values.username.length >= 15) {
-                errors.username = "please enter the 4 to 15 characters"
+                errors.username = "Please enter the 4 to 15 characters"
             }
             // const validPassword = new RegExp('^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$')
             if (!values.password) {
-                errors.password = "please enter the password"
+                errors.password = "Please enter the password"
             }
             else if (values.password.length <= 3 || values.password.length >= 15) {
-                errors.password = "please enter the 4 to 15 password"
+                errors.password = "Please enter the 4 to 15 password"
             }
             return errors;
         },
 
         onSubmit: async (values) => {
             try {
+                setLoading(true)
                 const user = await axios.post(check ? `${Config.api}/admin/login` : `${Config.api}/user/login`, values)
 
                 localStorage.setItem("inventorybill", user.data.token)
 
                 if (user.data.message === "success") {
-                    setDialog(true)
+                    // setDialog(true)
+                    setLoading(false)
+                    const dashboard = check ? navigate("/admindashboard/userlist") : navigate("/userdashboard")
                     login.resetForm()
-                    setResponse(user.data.message)
-                    setNav(true)
+                    // setResponse(user.data.message)
+                    // setNav(true)
+
                     localStorage.setItem("name", values.username)
+                   
                 } else {
+                    setLoading(false)
                     setDialog(true)
                     setResponse(user.data.message)
-
+                 
                 }
+               
             } catch (error) {
                 //lert(error.response.data.message)
                 alert("something went wrong")
@@ -70,9 +78,7 @@ function Login() {
     }
 
     const navi = () => {
-        if (nav === true) {
-            const dashboard = check ? navigate("/admindashboard/userlist") : navigate("/userdashboard")
-        } else {
+        if (nav !== true) {
             navigate("/")
         }
         setDialog(false)
@@ -82,7 +88,14 @@ function Login() {
     return (
         <>
             <div className='container login'>
-
+                <div >
+                    {
+                        dialog ? <div className='dialog1'>
+                            < p > {response}</p >
+                            <input type="submit" className='btn btn-primary mx-auto' value="Done" onClick={navi} />
+                        </div > : null
+                    }
+                </div>
 
                 <div className="col-lg-4 col-md-6 col-12 mx-auto">
 
@@ -108,7 +121,7 @@ function Login() {
                                 }
                                 disabled={dialog ? "disabled" : ""} />
                             {
-                                login.errors.username ? <span style={{ color: "red" }}>{login.errors.username}</span> : null
+                                login.errors.username ? <span className='errortext'>{login.errors.username}</span> : null
                             }
                         </div>
 
@@ -127,7 +140,7 @@ function Login() {
                                 }
                                 disabled={dialog ? "disabled" : ""} />
                             {
-                                login.errors.password ? <span style={{ color: "red" }}>{login.errors.password}</span> : null
+                                login.errors.password ? <span className='errortext'>{login.errors.password}</span> : null
                             }
                         </div>
 
@@ -146,12 +159,12 @@ function Login() {
                         <div className='col-lg-12 text-center form-floating mt-2 mb-2 link'>
                             <div className='col-lg-4 text-center form-floating mt-3 '>
                                 <Link to="/register" className={`link1 ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>R</Link>
-                                <label className='r'>Register Here</label>                              
+                                <label className='r'>Register Here</label>
                             </div>
 
                             <div className='col-lg-4 form-floating mt-3'>
                                 <Link to="/changepassword" className={`link2 ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>C</Link>
-                                <label className='c'>Change Password</label>                            
+                                <label className='c'>Change Password</label>
                             </div>
 
                             <div className='col-lg-4 form-floating mt-3'>
@@ -160,14 +173,22 @@ function Login() {
                             </div>
                         </div>
 
-                        <div className="col-lg-12" style={{marginTop:"20px",display:"flex",justifyContent:"center"}}>
-                        {/* mb-3 col-lg-6 col-md-6 col-12 py-lg-2 py-3 form-floating mx-auto my-1 */}
-                            <input className={`btn btn-primary ${dialog ? "form" : ""} col-lg-12 logbtn`}
+                        <div className="col-lg-12" style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                            {/* mb-3 col-lg-6 col-md-6 col-12 py-lg-2 py-3 form-floating mx-auto my-1 */}
+                            <button className={`btn btn-primary ${dialog ? "form" : ""} col-lg-12 logbtn mx-auto`}
                                 disabled={dialog ? "disabled" : ""}
-                                type={"submit"}
-                                value="Login" />
+                                type={"submit"}>{loading ? <div style={{display:"flex",justifyContent:"center"}}><ThreeDots
+                                    height="30"
+                                    width="40"
+                                    radius="10"
+                                    color="black"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClassName=""
+                                    visible={true}
+                                /></div> : "Login"} </button>
                         </div>
-                        
+
                         <div className='col-lg-12 text-center form-floating mt-2 mb-2 linkres'>
                             <div className='col-lg-4 text-center form-floating mt-3 '>
                                 <Link to="/register" className={`linkreg ${dialog ? "disabled" : ""}`} onClick={dialog ? (event) => event.preventDefault() : ""}>Register</Link>
@@ -183,21 +204,19 @@ function Login() {
                         </div>
                     </form >
                     <div className='adminhover'>
-                        <h6 style={{color:"black"}}>Admin</h6>
-                        <hr/>
-                        <h6 style={{color:"white"}}>Username:  suryaprakash</h6>
-                        <h6 style={{color:"white"}}>Password: surya123</h6>
+                        <h6 style={{ color: "black" }}>Admin</h6>
+                        <hr />
+                        <h6 style={{ color: "white" }}>Username:  suryaprakash</h6>
+                        <h6 style={{ color: "white" }}>Password: surya123</h6>
                         <h6>Please Click the checkbox</h6>
                     </div>
                 </div>
 
             </div >
-            {
-                dialog ? <div className='dialog'>
-                    < p > {response}</p >
-                    <input type="submit" className='btn btn-primary' value="Ok" onClick={navi} />
-                </div > : null
-            }
+            {/* <div style={{position:"absolute",top:"10px",border:"1px solid black",width:"fitContent"}}> */}
+
+            {/* </div> */}
+
 
         </>
     )

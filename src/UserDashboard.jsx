@@ -142,10 +142,6 @@ function UserDashboard() {
 
     setProductName(e.toLowerCase())
     console.log(e.length)
-    if(e.length === productName.length){
-      setList(false)
-      console.log(list)
-    }
   }
 
 

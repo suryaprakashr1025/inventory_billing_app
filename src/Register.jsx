@@ -6,7 +6,7 @@ import { useState, useRef } from 'react'
 import { Config } from "./Config"
 import "./Register.css"
 import Confetti from "react-confetti";
-
+import {ThreeDots} from "react-loader-spinner"
 function Register() {
 
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ function Register() {
   const [response, setResponse] = useState("")
   const [loading, setLoading] = useState(false)
   const [nav, setNav] = useState(false)
-  const [celebrate, setCelebrate] = useState(false)
+
   const confetiRef = useRef(null);
   const register = useFormik({
     initialValues: {
@@ -28,16 +28,16 @@ function Register() {
     validate: (values) => {
       const errors = {}
       if (!values.username) {
-        errors.username = "please enter the username"
+        errors.username = "Please enter the username"
       }
       else if (values.username.length <= 3 || values.username.length >= 15) {
-        errors.username = "please enter the 4 to 15 characters"
+        errors.username = "Please enter the 4 to 15 characters"
       }
       if (!values.email) {
-        errors.email = "please enter your email"
+        errors.email = "Please enter your email"
       }
       else if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "please enter valid email"
+        errors.email = "Please enter valid email"
       }
       let nan = isNaN(values.phoneno)
       if (!values.phoneno) {
@@ -62,21 +62,24 @@ function Register() {
 
     onSubmit: async (values) => {
       try {
+        setLoading(true)
         // const reg = await axios.post(check ? `${Config.api}/admin/register` : `${Config.api}/user/register`, values)
         const reg = await axios.post(`${Config.api}/user/register`, values)
         console.log(reg)
-        if (reg.data.message === "admin created" || reg.data.message === "user created") {
+        if (reg.data.message === "admin created" || reg.data.message === "user created successfully") {
+          setLoading(false)
           setDialog(true)
-          setCelebrate(true)
           setResponse(reg.data.message)
           register.resetForm()
           setNav(true)
+       
         } else {
+          setLoading(false)
           setDialog(true)
           register.resetForm()
           setResponse(reg.data.message)
         }
-
+      
       } catch (error) {
         // console.log(error.response.data.message)
         console.log(error)
@@ -90,31 +93,31 @@ function Register() {
   // }
 
   const navi = () => {
-    nav ? navigate("/") : navigate("/register")
+    console.log(nav)
+   
+    if (nav === true) {
+      navigate("/")
+    } else {
+      navigate("/register")
+    }
     setDialog(false)
-    setCelebrate(false)
+
   }
 
   return (
     <>
       <div className='container register'>
-        {
-          celebrate? <div className="regcel">
-            <Confetti numberOfPieces={120} width={1200} height={610} className="cel" /> 
-            {/* // https://codesandbox.io/examples/package/react-confetti */}
-          </div>: null
-        }
-         <div className='regpop'>
-            {
-              dialog ? <div className='dialog' ref={confetiRef}>
-                <p className='mx-auto'>{response}</p>
-                <input type="submit" value="Done" className="btn btn-primary mx-auto dialogbtn" onClick={navi} />
-                <Confetti numberOfPieces={120} width={1200} height={610} className="cel1" /> 
-              </div> : ""
-            }
-          </div>
+
+        <div className='regpop'>
+          {
+            dialog ? <div className='dialog2' ref={confetiRef}>
+              <p className='mx-auto'>{response}</p>
+              <input type="submit" value="Done" className="btn btn-primary mx-auto dialogbtn" onClick={navi} />
+            </div> : ""
+          }
+        </div>
         <div className="col-lg-4 col-md-6 col-12 mx-auto">
-         
+
           <form onSubmit={register.handleSubmit} className={`registerform ${dialog ? "opacity-form" : ""}`}>
             <div class="mb-3 text-center">
               <h5 class="py-lg-1 py-3" style={{ fontWeight: "bold", fontSize: "21px" }}>Register Form</h5>
@@ -136,7 +139,7 @@ function Register() {
                   }
                   disabled={dialog ? "disabled" : ""} />
                 {
-                  register.errors.username ? <span style={{ color: "red" }}>{register.errors.username}</span> : null
+                  register.errors.username ? <span className='errortext'>{register.errors.username}</span> : null
                 }
               </div>
             </div>
@@ -157,7 +160,7 @@ function Register() {
                   disabled={dialog ? "disabled" : ""}
                 />
                 {
-                  register.errors.email ? <span style={{ color: "red" }}>{register.errors.email}</span> : null
+                  register.errors.email ? <span className='errortext'>{register.errors.email}</span> : null
                 }
               </div>
             </div>
@@ -178,7 +181,7 @@ function Register() {
                   }
                   disabled={dialog ? "disabled" : ""} />
                 {
-                  register.errors.phoneno ? <span style={{ color: "red" }}>{register.errors.phoneno}</span> : null
+                  register.errors.phoneno ? <span className='errortext'>{register.errors.phoneno}</span> : null
                 }
               </div>
             </div>
@@ -199,7 +202,7 @@ function Register() {
                   }
                   disabled={dialog ? "disabled" : ""} />
                 {
-                  register.errors.password ? <span style={{ color: "red" }}>{register.errors.password}</span> : null
+                  register.errors.password ? <span className='errortext'>{register.errors.password}</span> : null
                 }
               </div>
             </div>
@@ -217,9 +220,18 @@ function Register() {
         </div> */}
 
             <div className='col-lg-12 mt-3' style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
-              <input type="submit" value="Register"
+              <button type="submit"
                 className={`btn btn-primary ${dialog ? "form" : ""} regbtn`}
-                disabled={dialog ? "disabled" : ""} />
+                disabled={dialog ? "disabled" : ""} > {loading ? <div style={{ display: "flex", justifyContent: "center" }}><ThreeDots
+                  height="25"
+                  width="40"
+                  radius="10"
+                  color="black"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true} />
+                </div> : "Register"}</button>
             </div>
 
           </form>

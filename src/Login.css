@@ -23,6 +23,7 @@ body {
 
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     
@@ -184,14 +185,50 @@ body {
     text-align: center;
 }
 
+
+.dialog1{
+    width: fit-content;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .1),
+    -10px -10px 10px rgba(0, 0, 0, .1);
+    background-color: rgb(145, 223, 28);
+    color:black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 25px;
+    padding: 15px;
+    font-weight: bold;
+    z-index: 100;
+    margin-bottom: 10px;
+}
+
+.dialog1 input{
+
+    border: 1px solid rgb(22, 19, 19);
+    color:#0f0c0c;
+    background-color: transparent;
+    font-weight: bold;
+    width: 50%;
+}
+.dialog1 input:hover{
+    border: 1px solid white;
+    color:white;
+    background-color: transparent;
+}
+.dialog1 input:focus{
+    border: 1px solid white;
+    color:white;
+    background-color: transparent;
+}
 @media screen and (min-width:300px) and (max-width:600px){
 
     .login{
         background-image: linear-gradient(to right, #FFCDA5, #EE4D5F);
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         
     }
     .loginform{
@@ -269,5 +306,16 @@ body {
     }
     .adminhover{
         display: block;
+    }
+    .dialog1{
+        width: 100%;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, .1),
+        -10px -10px 10px rgba(0, 0, 0, .1);
+        background-color: rgb(145, 223, 28);
+        color:black;
+        font-size: 12px; 
+    }
+    .dialog1 input{
+        font-size: 12px;
     }
 }

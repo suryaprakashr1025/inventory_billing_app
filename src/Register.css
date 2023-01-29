@@ -15,14 +15,8 @@
     justify-content: center !important;
 }
 
-.regcel {
-    display: flex !important;
-    justify-content: center !important;
-}
-.cel1{
-    display: none;
-}
-.dialog {
+
+.dialog2 {
 
     padding: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, .1),
@@ -32,7 +26,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #d1782e;
+    background-color: #af47d8;
     color: white;
     font-weight: bold;
 
@@ -102,13 +96,18 @@ input[class="form"]:disabled {
     background-color: transparent !important;
 
 }
-
+.errortext{
+    color:red;
+    font-size: 12px !important;
+    font-weight: bold;
+}
 @media screen and (min-width:300px) and (max-width:600px) {
 
     .register {
         background-image: linear-gradient(to right, #20BF55, #6ae4ab);
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: flex-start;
 
@@ -134,31 +133,11 @@ input[class="form"]:disabled {
         display: flex !important;
         justify-content: center !important;
         align-items: center;
-
+       
     }
 
     .dialogbtn {
         font-size: 12px;
         padding: 5px 5px;
     }
-
-    .regcel {
-        display: flex !important;
-        justify-content: center !important;
-    }
-
-     .cel {
-        width: 100%;
-        height: 30vh;
-        z-index: 500;
-        font-size: 8px;
-    }
-
-    /* .cel1 {
-        display: block;
-        align-items: center;
-        justify-content: center;
-        height: 100px;
-        width: 50%;
-    }  */
 }
